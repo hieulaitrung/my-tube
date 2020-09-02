@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import TubeList from '../../components/TubeList';
+import {MyTubeAPI} from '../../APIs'
 
 const Home = (props) => {
     const [items, setItems] = useState([]);
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
+    const api = MyTubeAPI();
     useEffect(() => {
-        fetch(`http://localhost:8080/tubes`)
-          .then(res => res.json())
-          .then(
+        const res = api.getTubes();
+        res.then(
             (result) => {
               setIsLoaded(true);
-              setItems(result.articles);
+              const articles = result.articles;
+              articles.map(a => a.author = api.lookupAuthor(result.authors, a.authorId));
+              setItems(articles);
             },
             // Note: it's important to handle errors here
             // instead of a catch() block so that we don't swallow
             // exceptions from actual bugs in components.
-            (error) => {
-              setIsLoaded(true);
-              setError(error);
+            (e) => {
+                setIsLoaded(true);
+                setError(e);
             }
           )
       }, [])

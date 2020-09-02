@@ -1,24 +1,16 @@
-import clsx from 'clsx';
-import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import clsx from 'clsx';
+import React from 'react';
 import { mainListItems } from './NavItems';
-
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
@@ -59,7 +51,7 @@ const Navbar = (props) => {
     const handleClose = props.handleClose;
     
     return (
-<Drawer
+      <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
@@ -72,7 +64,7 @@ const Navbar = (props) => {
           }),
         }}
       >
-        <div className={classes.toolbarIcon}>
+        <div className={classes.toolbar}>
           <IconButton onClick={handleClose}>
             <ChevronLeftIcon />
           </IconButton>
