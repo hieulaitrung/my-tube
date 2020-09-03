@@ -3,6 +3,7 @@ import bodyParser  from 'body-parser'
 import path from 'path'
 import cors from 'cors'
 import {data} from './testData';
+import pickby from 'lodash.pickby';
 
 const app = express();
 app.use(cors());
@@ -15,7 +16,18 @@ app.get('/', function (req, res) {
 });
 
 app.get('/tubes', function (req, res) {
-    res.send(data);
+    const searchTerm = req.query.term;
+    const result = {};
+    if (searchTerm) {
+        const searchRE = new RegExp(searchTerm, 'i');
+        result.articles = pickby(data.articles, (value) => {
+            return value.title.match(searchRE) || value.body.match(searchRE);
+        });
+    } else {
+        result.articles = data.articles;
+    }
+    result.authors = data.authors
+    res.send(result);
 });
 
 app.post('/tube', (req, res) => {

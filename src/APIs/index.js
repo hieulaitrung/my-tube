@@ -1,10 +1,12 @@
-import { useState } from 'react'
-
 export const MyTubeAPI = () => {
-    
-    const getTubes = () => {
-        return fetch(`http://localhost:8080/tubes`)
-          .then(res => res.json());
+
+    const getTubes = (term) => {
+        let endpoint = `http://localhost:8080/tubes`;
+        if (term) {
+            endpoint += `?term=${term}`;
+        }
+        return fetch(endpoint)
+            .then(res => res.json());
     }
 
     const lookupAuthor = (authors, authorId,) => {

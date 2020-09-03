@@ -1,9 +1,10 @@
 import React from 'react'
+import Typography from '@material-ui/core/Typography';
 
 const Private = () => {
     return (
         <div>
-            This is private
+            <Typography color="textSecondary" variant="body1">This is private</Typography>
         </div>
     )
 }

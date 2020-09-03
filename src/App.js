@@ -1,12 +1,15 @@
+import './wdyr';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import './App.css';
-import Copyright from './components/Copyright';
-import Header from './components/Header';
-import Navbar from './components/Navbar';
-import Routes from './Routes';
+import Home from './Routes/Home';
+import Private from './Routes/Private';
+import Search from './Routes/Search';
+import Login from './Routes/Login';
+import DashboardLayoutRoute from './Routes/Layout/DashboardLayoutRoute'
+import LoginLayoutRoute from './Routes/Layout/LoginLayoutRoute'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,18 +42,19 @@ function App() {
     setOpen(false);
   };
 
+  
+
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Router>
-        <Header open={open} handleOpen={handleDrawerOpen} />
-        <Navbar open={open} handleClose={handleDrawerClose} />
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Routes />
-          <Copyright />
-        </main>
-      </Router>
+      <Router>  
+        <Switch>
+          <LoginLayoutRoute path="/login" component={Login} />  
+          <DashboardLayoutRoute path="/search" component={Search} />  
+          <DashboardLayoutRoute path="/private" component={Private} />  
+          <DashboardLayoutRoute path="/" component={Home} />  
+        </Switch>  
+      </Router>  
     </div>
   );
 }
