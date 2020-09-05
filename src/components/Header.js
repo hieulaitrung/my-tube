@@ -7,14 +7,18 @@ import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
-import React from 'react';
+import React, {useContext} from 'react';
+import { UserContext } from '../providers/UserProvider'
 import Searchbar from './Searchbar'
+import Userbar from './Userbar'
+
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    flexGrow: 1,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -40,46 +44,58 @@ const useStyles = makeStyles((theme) => ({
   link: {
     '&:hover': {
       'text-decoration': 'none'
-   }
+    }
+  },
+  title: {
+    flexGrow: 1,
   }
 }));
 
 
 const AppToolbar = (props) => {
+  const user = useContext(UserContext);
+  const classes = useStyles();
   const open = props.open;
   const handleOpen = props.handleOpen;
   const handleSearch = props.handleSearch;
   const handleSubmitSearch = props.handleSubmitSearch;
-  const searchTerm = props.searchTerm;
-  const classes = useStyles();
 
   return (
-    <AppBar
-      position="fixed"
-      className={clsx(classes.appBar, {
-        [classes.appBarShift]: open,
-      })}
-    >
-      <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleOpen}
-          edge="start"
-          className={clsx(classes.menuButton, open && classes.hide)}
-        >
-          <MenuIcon />
-        </IconButton>
+    
+    <div className={classes.root}>
+      <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open,
+        })}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleOpen}
+            edge="start"
+            className={clsx(classes.menuButton, open && classes.hide)}
+          >
+            <MenuIcon />
+          </IconButton>
 
-        <Typography variant="h6" noWrap>
-          <Link className={classes.link} color="inherit" component={RouterLink} to="/">
-            MyTube
+          <Typography variant="h6" noWrap className={classes.title}>
+            <Link className={classes.link} color="inherit" component={RouterLink} to="/">
+              MyTube
           </Link>
-        </Typography>
-
-        <Searchbar searchTerm={searchTerm} handleSearch={handleSearch} handleSubmitSearch={handleSubmitSearch} />
-      </Toolbar>
-    </AppBar>
+          </Typography>
+          
+          <Searchbar handleSearch={handleSearch} handleSubmitSearch={handleSubmitSearch} />
+          
+          
+          <Userbar />
+          
+          
+          
+        </Toolbar>
+      </AppBar>
+    </div>
   )
 }
 

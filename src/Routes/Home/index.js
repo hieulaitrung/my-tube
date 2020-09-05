@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TubeList from '../../components/TubeList';
-import {MyTubeAPI} from '../../APIs'
+import {MyTubeAPI} from '../../apis'
 
 const Home = (props) => {
     const [items, setItems] = useState([]);

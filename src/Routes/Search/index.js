@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {
     useLocation
   } from "react-router-dom";
-import {MyTubeAPI} from '../../APIs'
+import {MyTubeAPI} from '../../apis'
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
