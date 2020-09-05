@@ -9,7 +9,9 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
+import { createUserWithEmailAndPassword } from '../../firebase'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -29,6 +31,12 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    iroot: {
+        width: '100%',
+        '& > * + *': {
+            marginTop: theme.spacing(1),
+        },
+    },
 }));
 
 export default function Signup() {
@@ -38,6 +46,7 @@ export default function Signup() {
     const [lastName, setlastName] = useState('');
     const [email, setemail] = useState('');
     const [password, setpassword] = useState('');
+    const [error, setError] = useState(null);
 
     const handleOnchange = (event) => {
         const { name, value } = event.currentTarget;
@@ -55,10 +64,24 @@ export default function Signup() {
 
     const handleOnSubmit = (event) => {
         event.preventDefault();
-        console.log(firstName);
-        console.log(lastName);
-        console.log(email);
-        console.log(password);
+        if (firstName && lastName && email && password) {
+            createUserWithEmailAndPassword(email, password, (error) => {
+                setError('Technical error. Please try again.')
+            })
+        } else {
+            setError('Please fill all details bellow.');
+        }
+
+    }
+
+    const messageDisplay = () => {
+        if (error) {
+            return (
+                <div className={classes.iroot}>
+                    <Alert severity="warning">{error}</Alert>
+                </div>
+            )
+        }
     }
 
     return (
@@ -68,7 +91,8 @@ export default function Signup() {
             </Avatar>
             <Typography component="h1" variant="h5">
                 Sign up
-        </Typography>
+            </Typography>
+            {messageDisplay()}
             <form className={classes.form} noValidate>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>

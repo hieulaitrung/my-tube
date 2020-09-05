@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
-import { auth, signIn, signInWithGoogle, generateUserDocument } from '../../firebase'
+import { signIn, signInWithGoogle } from '../../firebase'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -52,9 +52,13 @@ const Login = () => {
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
-    signIn(email, password, (error) => {
-      setError('Your email or password is incorrect. Please try again.');
-    });
+    if (email && password) {
+      signIn(email, password, (error) => {
+        setError('Your email or password is incorrect. Please try again.');
+      });
+    } else {
+      setError('Email or password is missing.');
+    }
   }
 
   const messageDisplay = () => {
@@ -64,7 +68,7 @@ const Login = () => {
           <Alert severity="warning">{error}</Alert>
         </div>
       )
-    } 
+    }
   }
 
   return (

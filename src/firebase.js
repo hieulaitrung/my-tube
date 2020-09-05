@@ -35,6 +35,16 @@ const signOut = (callback) => {
   });
 }
 
+const createUserWithEmailAndPassword = async (email, password, callback) => {
+  try{
+    const {user} = await auth.createUserWithEmailAndPassword(email, password);
+    generateUserDocument(user);
+  }
+  catch(error){
+    callback(error);
+  }
+};
+
 const generateUserDocument = async (user, additionalData) => {
   if (!user) return;
   const userRef = firestore.doc(`users/${user.uid}`);
@@ -71,6 +81,7 @@ const getUserDocument = async uid => {
 export {
   auth,
   firestore,
+  createUserWithEmailAndPassword,
   signIn,
   signInWithGoogle,
   generateUserDocument,
