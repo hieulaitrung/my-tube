@@ -46,6 +46,7 @@ export default function Signup() {
     const [lastName, setlastName] = useState('');
     const [email, setemail] = useState('');
     const [password, setpassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState(null);
 
     const handleOnchange = (event) => {
@@ -58,16 +59,22 @@ export default function Signup() {
             setemail(value);
         } else if (name === 'password') {
             setpassword(value);
+        } else if (name === 'confirmPassword') {
+            setConfirmPassword(value);
         }
     }
 
 
     const handleOnSubmit = (event) => {
         event.preventDefault();
-        if (firstName && lastName && email && password) {
-            createUserWithEmailAndPassword(email, password, (error) => {
-                setError('Technical error. Please try again.')
-            })
+        if (firstName && lastName && email && password && confirmPassword) {
+            if (password !== confirmPassword) {
+                setError('Password and confirm password does not match.');
+            } else {
+                createUserWithEmailAndPassword(email, password, (error) => {
+                    setError('Technical error. Please try again.')
+                })
+            }
         } else {
             setError('Please fill all details bellow.');
         }
@@ -146,6 +153,19 @@ export default function Signup() {
                             id="password"
                             autoComplete="current-password"
                             value={password}
+                            onChange={handleOnchange}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            name="confirmPassword"
+                            label="Confirm Password"
+                            type="password"
+                            id="confirmPassword"
+                            value={confirmPassword}
                             onChange={handleOnchange}
                         />
                     </Grid>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -123,7 +123,7 @@ const Login = () => {
           </Button>
         <Grid container>
           <Grid item xs>
-            <Link href="#" variant="body2">
+          <Link component={RouterLink} to="/password-reset" variant="body2">
               Forgot password?
               </Link>
           </Grid>

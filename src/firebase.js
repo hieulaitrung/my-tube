@@ -36,13 +36,17 @@ const signOut = (callback) => {
 }
 
 const createUserWithEmailAndPassword = async (email, password, callback) => {
-  try{
-    const {user} = await auth.createUserWithEmailAndPassword(email, password);
+  try {
+    const { user } = await auth.createUserWithEmailAndPassword(email, password);
     generateUserDocument(user);
   }
-  catch(error){
+  catch (error) {
     callback(error);
   }
+};
+
+const sendResetEmail = (email) => {
+  return auth.sendPasswordResetEmail(email)
 };
 
 const generateUserDocument = async (user, additionalData) => {
@@ -85,5 +89,6 @@ export {
   signIn,
   signInWithGoogle,
   generateUserDocument,
-  signOut
+  signOut,
+  sendResetEmail
 }

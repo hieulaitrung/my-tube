@@ -30,7 +30,9 @@ function App() {
         <CssBaseline />
         
           <Switch>
+          
             <LoginLayoutRoute path="/login" component={Login} />
+            <LoginLayoutRoute path="/password-reset" component={PasswordReset} />
             <LoginLayoutRoute path="/signup" component={Signup} />
             <LoginLayoutRoute path="/password-reset" component={PasswordReset} />
             <DashboardLayoutRoute path="/search" component={Search} />
