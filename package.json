@@ -37,9 +37,8 @@
     "client": "react-scripts start",
     "dev": "concurrently \"yarn run server\" \"yarn run client\"",
     "start": "node dist-server/index.js",
-    "heroku-postbuild": "yarn run build",
     "transpile": "babel server --out-dir dist-server --copy-files",
-    "clean": "rimraf dist-server"
+    "heroku-postbuild": "yarn run build && yarn run transpile"
   },
   "eslintConfig": {
     "extends": "react-app"
