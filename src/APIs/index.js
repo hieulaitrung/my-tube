@@ -1,7 +1,7 @@
 export const MyTubeAPI = () => {
 
     const getTubes = (term) => {
-        let endpoint = `http://localhost:8080/tubes`;
+        let endpoint = `http://localhost:5000/tubes`;
         if (term) {
             endpoint += `?term=${term}`;
         }

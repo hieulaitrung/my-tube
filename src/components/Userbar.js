@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { UserContext } from '../providers/UserProvider'
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
@@ -38,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Userbar = (props) => {
     const classes = useStyles();
-    const user = useContext(UserContext);
+    const user = props.user;
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 

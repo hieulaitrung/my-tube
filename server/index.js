@@ -8,11 +8,11 @@ import pickby from 'lodash.pickby';
 const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, '../build')));
 
 
-app.get('/', function (req, res) {
-    return res.send('hello');
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
 app.get('/tubes', function (req, res) {
@@ -36,4 +36,4 @@ app.post('/tube', (req, res) => {
 
 
 
-app.listen(process.env.PORT || 8080);
+app.listen(process.env.PORT || 5000);

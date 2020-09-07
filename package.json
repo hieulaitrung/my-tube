@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/cli": "^7.11.6",
     "@babel/core": "^7.11.5",
     "@babel/node": "^7.10.5",
     "@babel/preset-env": "^7.11.5",
@@ -15,11 +16,13 @@
     "@welldone-software/why-did-you-render": "^5.0.0-alpha.2",
     "babel-loader": "^8.1.0",
     "clsx": "^1.1.1",
+    "concurrently": "^5.3.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "firebase": "^7.19.1",
     "lodash.debounce": "^4.0.8",
     "lodash.pickby": "^4.6.0",
+    "mongoose": "^5.10.3",
     "nodemon": "^2.0.4",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -28,11 +31,15 @@
     "react-scripts": "3.4.3"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "start-node": "nodemon --watch src/server --exec babel-node src/server/index.js"
+    "server": "nodemon --watch server --exec babel-node server/index.js",
+    "client": "react-scripts start",
+    "dev": "concurrently \"yarn run server\" \"yarn run client\"",
+    "start": "node dist-server/index.js",
+    "heroku-postbuild": "yarn run build",
+    "transpile": "babel server --out-dir dist-server --copy-files",
+    "clean": "rimraf dist-server"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,6 +56,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080",
+  "proxy": "http://localhost:5000",
   "devDependencies": {}
 }

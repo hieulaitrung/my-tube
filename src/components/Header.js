@@ -57,8 +57,6 @@ const AppToolbar = (props) => {
   const classes = useStyles();
   const open = props.open;
   const handleOpen = props.handleOpen;
-  const handleSearch = props.handleSearch;
-  const handleSubmitSearch = props.handleSubmitSearch;
 
   return (
     
@@ -86,13 +84,8 @@ const AppToolbar = (props) => {
           </Link>
           </Typography>
           
-          <Searchbar handleSearch={handleSearch} handleSubmitSearch={handleSubmitSearch} />
-          
-          
-          <Userbar />
-          
-          
-          
+          <Searchbar/>
+          <Userbar user={user} />
         </Toolbar>
       </AppBar>
     </div>
