@@ -4,14 +4,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import './App.css';
-import Home from './routes/Home';
-import Private from './routes/Private';
-import Search from './routes/Search';
-import Login from './routes/Login';
-import Signup from './routes/Signup';
-import PasswordReset from './routes/PasswordReset';
-import DashboardLayoutRoute from './routes/Layout/DashboardLayoutRoute'
-import LoginLayoutRoute from './routes/Layout/LoginLayoutRoute'
+import Home from './routes/home';
+import Private from './routes/private';
+import Search from './routes/search';
+import Login from './routes/login';
+import Signup from './routes/signup';
+import PasswordReset from './routes/password-reset';
+import DashboardLayoutRoute from './routes/layout/DashboardLayoutRoute'
+import LoginLayoutRoute from './routes/layout/LoginLayoutRoute'
 import UserProvider from './providers/UserProvider'
 
 const useStyles = makeStyles((theme) => ({
