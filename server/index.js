@@ -10,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, '../build')));
 
-app.get('/tubes', function (req, res) {
+app.get('/apis/tubes', function (req, res) {
     const searchTerm = req.query.term;
     const result = {};
     if (searchTerm) {
@@ -25,7 +25,7 @@ app.get('/tubes', function (req, res) {
     res.send(result);
 });
 
-app.post('/tube', (req, res) => {
+app.post('/apis/tube', (req, res) => {
     res.send(req.body);
 });
 
