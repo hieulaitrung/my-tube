@@ -10,11 +10,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, '../build')));
 
-
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
-});
-
 app.get('/tubes', function (req, res) {
     const searchTerm = req.query.term;
     const result = {};
@@ -34,6 +29,9 @@ app.post('/tube', (req, res) => {
     res.send(req.body);
 });
 
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
 
 
 app.listen(process.env.PORT || 5000);
