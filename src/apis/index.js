@@ -1,7 +1,7 @@
 export const MyTubeAPI = () => {
     const url  = process.env.REACT_APP_SERVER_URL || 'http://localhost:5000'
     const getTubes = (term) => {
-        let endpoint = `${process.env.REACT_APP_SERVER_URL}/apis/tubes`;
+        let endpoint = `${url}/apis/tubes`;
         if (term) {
             endpoint += `?term=${term}`;
         }
