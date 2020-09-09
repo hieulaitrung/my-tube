@@ -4,11 +4,18 @@ import path from 'path'
 import cors from 'cors'
 import {data} from './testData';
 import pickby from 'lodash.pickby';
+import admin from 'firebase-admin';
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, '../build')));
+
+// admin.initializeApp({
+//     credential: admin.credential.cert(process.env.FIREBASE_CONFIG);
+//   });
+  
+const db = admin.firestore();
 
 app.get('/apis/tubes', function (req, res) {
     const searchTerm = req.query.term;
@@ -26,7 +33,8 @@ app.get('/apis/tubes', function (req, res) {
 });
 
 app.post('/apis/tube', (req, res) => {
-    res.send(req.body);
+
+    res.send('ok');
 });
 
 app.get('*', (req,res) =>{
