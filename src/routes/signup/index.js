@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Signup() {
     const classes = useStyles();
+    let history = useHistory();
 
     const [firstName, setfirstName] = useState('');
     const [lastName, setlastName] = useState('');
@@ -77,7 +78,11 @@ export default function Signup() {
                 setError('Password and confirm password does not match.');
             } else {
                 createUserWithEmailAndPassword(email, password, (error) => {
-                    setError('Technical error. Please try again.')
+                    if (error) {
+                        setError('Technical error. Please try again.')
+                    } else {
+                        history.push("/");
+                    }
                 })
             }
         } else {

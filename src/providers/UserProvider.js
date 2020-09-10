@@ -13,9 +13,6 @@ const UserProvider = (props) => {
     auth.onAuthStateChanged(async userAuth => {
       const userDetails = await generateUserDocument(userAuth);
       setUser(userDetails);
-      if (userDetails) {
-        history.push("/");
-      }
     });
   }, []);
 

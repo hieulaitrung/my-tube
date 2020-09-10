@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -40,6 +40,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState(null);
+  let history = useHistory();
 
   const handleOnchange = (event) => {
     const { name, value } = event.currentTarget;
@@ -54,7 +55,11 @@ const Login = () => {
     event.preventDefault();
     if (email && password) {
       signIn(email, password, (error) => {
-        setError('Your email or password is incorrect. Please try again.');
+        if (error) {
+          setError('Your email or password is incorrect. Please try again.');
+        } else {
+          history.push("/");
+        }
       });
     } else {
       setError('Email or password is missing.');

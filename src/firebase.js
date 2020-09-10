@@ -15,21 +15,28 @@ const signInWithGoogle = () => {
 };
 
 const signIn = (email, password, callback) => {
-  auth.signInWithEmailAndPassword(email, password).catch(function (error) {
+  auth.signInWithEmailAndPassword(email, password)
+  .then(function(result) {
+    callback();
+  }).catch(function (error) {
     callback(error);
   });
 }
 
-const signOut = (callback) => {
-  auth.signOut().catch(function (error) {
+const signOut = (callback = () => {}) => {
+  auth.signOut()
+  .then(function(result) {
+    callback();
+  }).catch(function (error) {
     callback(error);
   });
 }
 
-const createUserWithEmailAndPassword = async (email, password, callback) => {
+const createUserWithEmailAndPassword = async (email, password, callback = () => {}) => {
   try {
     const { user } = await auth.createUserWithEmailAndPassword(email, password);
     generateUserDocument(user);
+    callback();
   }
   catch (error) {
     callback(error);
