@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 const Tube = (props) => {
     const tube = props.item;
     const classes = useStyles();
-    const authorFirstName = tube.author.firstName.charAt(0);
+    const authorFirstName = tube.author.email.charAt(0);
     const dateDisplay = new Date(tube.date).toDateString();
     return (
         <Grid item>

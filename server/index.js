@@ -2,10 +2,10 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import path from 'path'
 import cors from 'cors'
-import { data } from './testData';
 import pickby from 'lodash.pickby';
 import admin from 'firebase-admin';
 import dotenv from 'dotenv';
+import algoliasearch from 'algoliasearch';
 
 dotenv.config()
 const app = express();
@@ -19,19 +19,21 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
+const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_SEARCH_KEY);
+const index = client.initIndex('tubes');
 
-app.get('/apis/tubes', function (req, res) {
+app.get('/apis/tubes', async (req, res) => {
     const searchTerm = req.query.term;
-    const result = {};
-    if (searchTerm) {
-        const searchRE = new RegExp(searchTerm, 'i');
-        result.articles = pickby(data.articles, (value) => {
-            return value.title.match(searchRE) || value.body.match(searchRE);
-        });
-    } else {
-        result.articles = data.articles;
-    }
-    result.authors = data.authors
+
+    const result = { authors: [], articles: [] };
+
+    const searchResponse =  await index.search(searchTerm);
+    result.articles = searchResponse.hits;
+    const usersSnapshot = await db.collection('users').get();
+    usersSnapshot.forEach((doc) => {
+        result.authors.push({ id: doc.id, ...doc.data() });
+    });
+
     res.send(result);
 });
 
