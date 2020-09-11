@@ -9,15 +9,13 @@ import Private from './routes/private';
 import Search from './routes/search';
 import Login from './routes/login';
 import Signup from './routes/signup';
+import Watch from './routes/watch';
 import PasswordReset from './routes/password-reset';
 import DashboardLayoutRoute from './routes/layout/DashboardLayoutRoute'
 import LoginLayoutRoute from './routes/layout/LoginLayoutRoute'
 import UserProvider from './providers/UserProvider'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  }
 }));
 
 function App() {
@@ -25,22 +23,17 @@ function App() {
 
   return (
     <Router>
-    <UserProvider>
-      <div className={classes.root}>
-        <CssBaseline />
-        
-          <Switch>
-          
-            <LoginLayoutRoute path="/login" component={Login} />
-            <LoginLayoutRoute path="/signup" component={Signup} />
-            <LoginLayoutRoute path="/password-reset" component={PasswordReset} />
-            <DashboardLayoutRoute path="/search" component={Search} />
-            <DashboardLayoutRoute path="/private" component={Private} />
-            <DashboardLayoutRoute path="/" component={Home} />
-          </Switch>
-        
-      </div>
-    </UserProvider>
+      <UserProvider>
+        <Switch>
+          <LoginLayoutRoute path="/login" component={Login} />
+          <LoginLayoutRoute path="/signup" component={Signup} />
+          <LoginLayoutRoute path="/password-reset" component={PasswordReset} />
+          <DashboardLayoutRoute path="/search" component={Search} />
+          <DashboardLayoutRoute path="/private" component={Private} />
+          <DashboardLayoutRoute path="/watch" component={Watch} />
+          <DashboardLayoutRoute path="/" component={Home} />
+        </Switch>
+      </UserProvider>
     </Router>
   );
 }

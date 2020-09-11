@@ -10,7 +10,11 @@ import algoliasearch from 'algoliasearch';
 dotenv.config()
 const app = express();
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }))
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, '../build')));
 
 
@@ -27,8 +31,18 @@ app.get('/apis/tubes', async (req, res) => {
 
     const result = { authors: [], articles: [] };
 
-    const searchResponse =  await index.search(searchTerm);
-    result.articles = searchResponse.hits;
+    const searchResponse = await index.search(searchTerm);
+    result.articles = searchResponse.hits
+        .map(h => {
+            return { 
+                id: h.objectID, 
+                authorId: h.authorId, 
+                body: h.body, 
+                title: h.title, 
+                date: h.date 
+            }
+        });
+
     const usersSnapshot = await db.collection('users').get();
     usersSnapshot.forEach((doc) => {
         result.authors.push({ id: doc.id, ...doc.data() });
@@ -37,9 +51,10 @@ app.get('/apis/tubes', async (req, res) => {
     res.send(result);
 });
 
-app.post('/apis/tube', (req, res) => {
+app.post('/apis/tubes', async (req, res) => {
+    const obj = await db.collection('tubes').add(req.body);
 
-    res.send('ok');
+    res.send(obj);
 });
 
 app.get('*', (req, res) => {

@@ -1,3 +1,5 @@
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -16,6 +18,11 @@ const useStyles = makeStyles((theme) => ({
         width: 350,
         height: 330
     },
+    link: {
+        '&:hover': {
+            'text-decoration': 'none',
+          }
+    },
     media: {
         height: 0,
         paddingTop: '56.25%', // 16:9
@@ -33,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         backgroundColor: red[500],
     },
+
 }));
 
 const Tube = (props) => {
@@ -41,32 +49,36 @@ const Tube = (props) => {
     const authorFirstName = tube.author.email.charAt(0);
     const dateDisplay = new Date(tube.date).toDateString();
     return (
-        <Grid item>
-            <Card className={classes.root}>
-            <CardHeader
-                avatar={
-                    <Avatar aria-label="recipe" className={classes.avatar}>
-                        {authorFirstName}
-          </Avatar>
-                }
-                title={tube.title}
-                subheader={dateDisplay}
-            />
-            <CardMedia
-                className={classes.media}
-                image="https://via.placeholder.com/150"
-                title={tube.title}
-            />
-            <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                </IconButton>
-                <IconButton aria-label="share">
-                    <ShareIcon />
-                </IconButton>
-            </CardActions>
-        </Card>
-        </Grid>
+            <Grid item>
+                <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
+                <Card className={classes.root}>
+                    <CardHeader
+                        avatar={
+                            <Avatar aria-label="recipe" className={classes.avatar}>
+                                {authorFirstName}
+                            </Avatar>
+                        }
+                        title={tube.title}
+                        subheader={dateDisplay}
+                    />
+                    <CardMedia
+                        className={classes.media}
+                        image="https://via.placeholder.com/150"
+                        title={tube.title}
+                    />
+                    <CardActions disableSpacing>
+                        <IconButton onClick={(e) => { e.preventDefault(); alert('favorites')}} aria-label="add to favorites">
+                            <FavoriteIcon />
+                        </IconButton>
+                        <IconButton  onClick={(e) => { e.preventDefault(); alert('share')}} aria-label="share">
+                            <ShareIcon />
+                        </IconButton>
+                    </CardActions>
+
+                </Card>
+                </Link>
+            </Grid>
+        
     )
 }
 

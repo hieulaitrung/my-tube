@@ -59,8 +59,6 @@ const AppToolbar = (props) => {
   const handleOpen = props.handleOpen;
 
   return (
-    
-    <div className={classes.root}>
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
@@ -88,7 +86,6 @@ const AppToolbar = (props) => {
           <Userbar user={user} />
         </Toolbar>
       </AppBar>
-    </div>
   )
 }
 

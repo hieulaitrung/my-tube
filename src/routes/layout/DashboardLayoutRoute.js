@@ -11,23 +11,24 @@ import Navbar from '../../components/Navbar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      display: 'flex',
+        display: 'flex',
+        
     },
     toolbar: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        padding: theme.spacing(0, 1),
+        // necessary for content to be below app bar
+        ...theme.mixins.toolbar,
     },
     content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
+        flexGrow: 1,
+        padding: theme.spacing(3),
     },
-  }));
+}));
 
-const DashboardLayout = ({children, ...rest}) => {
+const DashboardLayout = ({ children, ...rest }) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
@@ -41,17 +42,17 @@ const DashboardLayout = ({children, ...rest}) => {
     return (
         <div className={classes.root}>
             <CssBaseline />
-                <Header open={open}
-                    handleOpen={handleDrawerOpen}
-                />
-                <Navbar open={open} handleClose={handleDrawerClose} />
-                <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                    {children}
-                    <Box pt={4}>
-                        <Copyright />
-                    </Box>
-                </main>
+            <Header open={open}
+                handleOpen={handleDrawerOpen}
+            />
+            <Navbar open={open} handleClose={handleDrawerClose} />
+            <main className={classes.content}>
+                <div className={classes.toolbar} />
+                {children}
+                <Box pt={4}>
+                    <Copyright />
+                </Box>
+            </main>
         </div>
     )
 }
