@@ -25,7 +25,6 @@
     "firebase": "^7.19.1",
     "firebase-admin": "^9.1.1",
     "lodash.debounce": "^4.0.8",
-    "lodash.pickby": "^4.6.0",
     "nodemon": "^2.0.4",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",

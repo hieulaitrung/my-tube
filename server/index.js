@@ -2,7 +2,6 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import path from 'path'
 import cors from 'cors'
-import pickby from 'lodash.pickby';
 import admin from 'firebase-admin';
 import dotenv from 'dotenv';
 import algoliasearch from 'algoliasearch';
@@ -28,18 +27,24 @@ const index = client.initIndex('tubes');
 
 app.get('/apis/tubes', async (req, res) => {
     const searchTerm = req.query.term;
+    const filterBy = req.query.filterBy;
+    const filterTerm = req.query.filterTerm;
 
     const result = { authors: [], articles: [] };
-
-    const searchResponse = await index.search(searchTerm);
+    const filter = (typeof filterBy == "undefined") ? {} : {
+        filters: `${filterBy}:${filterTerm}`
+    };
+    
+    const searchResponse = await index.search(searchTerm, filter);
     result.articles = searchResponse.hits
         .map(h => {
-            return { 
-                id: h.objectID, 
-                authorId: h.authorId, 
-                body: h.body, 
-                title: h.title, 
-                date: h.date 
+            return {
+                id: h.objectID,
+                authorId: h.authorId,
+                body: h.body,
+                title: h.title,
+                date: h.date,
+                tag: h.tag
             }
         });
 
@@ -55,6 +60,13 @@ app.post('/apis/tubes', async (req, res) => {
     const obj = await db.collection('tubes').add(req.body);
 
     res.send(obj);
+});
+
+app.get('/apis/tubes/:tubeId', async (req, res) => {
+    const tubeId = req.params.tubeId;
+    const obj = await db.collection('tubes').doc(tubeId).get();
+    let result = {id: tubeId, ...obj.data()};
+    res.send(result);
 });
 
 app.get('*', (req, res) => {

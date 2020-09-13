@@ -1,5 +1,7 @@
 import React from 'react'
+import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import Link from '@material-ui/core/Link';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,6 +11,11 @@ import ShareIcon from '@material-ui/icons/Share';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
+    link: {
+        '&:hover': {
+            'text-decoration': 'none',
+          }
+    },
     root: {
         display: 'flex',
         'margin-bottom': theme.spacing(1)
@@ -44,6 +51,7 @@ const SearchTube = (props) => {
     const bodyDisplay = textDisplay(tube.body);
 
     return (
+        <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
         <Card className={classes.root} square>
             <CardMedia
                 className={classes.media}
@@ -60,15 +68,16 @@ const SearchTube = (props) => {
                     </Typography>
                 </CardContent>
                 <div className={classes.controls}>
-                    <IconButton aria-label="add to favorites">
+                    <IconButton onClick={(e) => { e.preventDefault(); alert('favorites')}} aria-label="add to favorites">
                         <FavoriteIcon />
                     </IconButton>
-                    <IconButton aria-label="share">
+                    <IconButton onClick={(e) => { e.preventDefault(); alert('share')}} aria-label="share">
                         <ShareIcon />
                     </IconButton>
                 </div>
             </div>
         </Card>
+        </Link>
     )
 }
 
