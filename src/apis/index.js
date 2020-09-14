@@ -13,6 +13,12 @@ export const MyTubeAPI = () => {
             .then(res => res.json());
     }
 
+    const getNextTubes = (id) => {
+        let endpoint = `${url}/apis/tubes/${id}/next`;
+        return fetch(endpoint)
+            .then(res => res.json());
+    }
+
     const getTube = (id) => {
         let endpoint = `${url}/apis/tubes/${id}`;
         return fetch(endpoint)
@@ -25,6 +31,7 @@ export const MyTubeAPI = () => {
 
     return {
         getTubes,
+        getNextTubes,
         getTube,
         lookupAuthor
     }

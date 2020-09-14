@@ -56,6 +56,34 @@ app.get('/apis/tubes', async (req, res) => {
     res.send(result);
 });
 
+app.get('/apis/tubes/:tubeId/next', async (req, res) => {
+    const tubeId = req.params.tubeId;
+    const tube = await db.collection('tubes').doc(tubeId).get();
+    const searchResponse = await index.search('', {
+        filters: `tag:${tube.data().tag} AND NOT objectID:${tubeId}`
+    });
+    
+    const result = { authors: [], articles: [] };
+    result.articles = searchResponse.hits
+        .map(h => {
+            return {
+                id: h.objectID,
+                authorId: h.authorId,
+                body: h.body,
+                title: h.title,
+                date: h.date,
+                tag: h.tag
+            }
+        });
+
+    const usersSnapshot = await db.collection('users').get();
+    usersSnapshot.forEach((doc) => {
+        result.authors.push({ id: doc.id, ...doc.data() });
+    });
+
+    res.send(result);
+});
+
 app.post('/apis/tubes', async (req, res) => {
     const obj = await db.collection('tubes').add(req.body);
 

@@ -67,10 +67,7 @@ const Watch = () => {
     }, [video])
 
     useEffect(() => {
-        if (!tube.id) {
-            return;
-        }
-        const res = api.getTubes(null, 'tag', tube.tag);
+        const res = api.getNextTubes(video);
         res.then(
             (result) => {
                 setIsLoaded(true);
@@ -86,7 +83,7 @@ const Watch = () => {
             }
         )
 
-    }, [tube])
+    }, [video])
 
 
     return (
