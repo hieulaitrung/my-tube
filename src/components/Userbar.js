@@ -1,12 +1,11 @@
-import React, { useContext } from 'react'
-import { UserContext } from '../providers/UserProvider'
+import React from 'react'
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import VideoCallIcon from '@material-ui/icons/VideoCall';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
-import { red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import { signOut } from '../firebase'
@@ -31,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
         transform: 'rotate(180deg)',
     },
     avatar: {
-        backgroundColor: red[500],
+        width: theme.spacing(4),
+        height: theme.spacing(4),
     },
 }));
 
@@ -57,13 +57,16 @@ const Userbar = (props) => {
     return (
         user ?
             <div>
+                <IconButton aria-label="upload" color="primary.contrastText" size="large"  onClick={() => {alert('TODO: open modal')}}>
+                    <VideoCallIcon />
+                </IconButton>
                 <IconButton
                     aria-label="account of current user"
                     aria-controls="menu-appbar"
                     aria-haspopup="true"
                     onClick={handleMenu}
                     color="inherit">
-                    <Avatar aria-label="recipe" className={classes.avatar}>
+                    <Avatar aria-label="avatar" bgColor="primary.contrastText" className={classes.avatar}>
                         {user.email.charAt(0)}
                     </Avatar>
                 </IconButton>

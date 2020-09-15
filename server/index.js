@@ -5,6 +5,7 @@ import cors from 'cors'
 import admin from 'firebase-admin';
 import dotenv from 'dotenv';
 import algoliasearch from 'algoliasearch';
+import { checkIfAuthenticated} from './middlewares/auth-middleware'
 
 dotenv.config()
 const app = express();
@@ -84,10 +85,10 @@ app.get('/apis/tubes/:tubeId/next', async (req, res) => {
     res.send(result);
 });
 
-app.post('/apis/tubes', async (req, res) => {
-    const obj = await db.collection('tubes').add(req.body);
+app.post('/apis/tubes', checkIfAuthenticated, async (req, res,) => {
+    //const obj = await db.collection('tubes').add(req.body);
 
-    res.send(obj);
+    res.send("ok");
 });
 
 app.get('/apis/tubes/:tubeId', async (req, res) => {
