@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
-import { signIn, signInWithGoogle } from '../../firebase'
+import { signIn, signInWithGoogle, sendEmailVerification } from '../../firebase'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
     '& > * + *': {
       marginTop: theme.spacing(1),
     },
+    '& a': {
+      'text-decoration': 'underline'
+    }
   },
 }));
 
@@ -56,21 +59,33 @@ const Login = () => {
     if (email && password) {
       signIn(email, password, (error) => {
         if (error) {
-          setError('Your email or password is incorrect. Please try again.');
+          setError(error);
         } else {
           history.push("/");
         }
       });
     } else {
-      setError('Email or password is missing.');
+      setError({code: 'invalid', message: 'Email or password is missing.'});
     }
   }
 
+  const resend = (event, user) => {
+    event.preventDefault();
+    sendEmailVerification(user, (error)=> {
+      setError(error);
+    });
+  };
+
   const messageDisplay = () => {
     if (error) {
+      const resendVerifiedEmail = error.code === 'unverified' ?
+        <Link href="#" onClick={(event)=> resend(event, error.user)} color="inherit">Resend email</Link> :
+        '';
       return (
         <div className={classes.iroot}>
-          <Alert severity="warning">{error}</Alert>
+          <Alert severity="warning">
+            {error.message} {resendVerifiedEmail}
+          </Alert>
         </div>
       )
     }
@@ -128,7 +143,7 @@ const Login = () => {
           </Button>
         <Grid container>
           <Grid item xs>
-          <Link component={RouterLink} to="/password-reset" variant="body2">
+            <Link component={RouterLink} to="/password-reset" variant="body2">
               Forgot password?
               </Link>
           </Grid>

@@ -49,10 +49,11 @@ export default function Signup() {
     const [password, setpassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState(null);
+    const [info, setInfo] = useState(null);
 
     function validateEmail(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
     }
 
     const handleOnchange = (event) => {
@@ -70,23 +71,34 @@ export default function Signup() {
         }
     }
 
+    const clear = () => {
+        setfirstName('');
+        setlastName('');
+        setemail('');
+        setpassword('');
+        setConfirmPassword('');
+    }
+
 
     const handleOnSubmit = (event) => {
         event.preventDefault();
         if (firstName && lastName && email && password && confirmPassword) {
             if (password !== confirmPassword) {
-                setError('Password and confirm password does not match.');
+                setError({code: 'mismatch', message: 'Password and confirm password does not match.'});
+            } else if (!validateEmail(email)) {
+                setError({code: 'invalidEmail', message: 'Email format is invalid'});
             } else {
                 createUserWithEmailAndPassword(email, password, (error) => {
                     if (error) {
-                        setError('Technical error. Please try again.')
+                        setError(error)
                     } else {
-                        history.push("/");
+                        clear();
+                        setInfo({message: `Verification email has been sent to ${email}. Please check your inbox.`})
                     }
                 })
             }
         } else {
-            setError('Please fill all details bellow.');
+            setError({code: 'blank', message: 'Please fill all details bellow.'});
         }
 
     }
@@ -95,7 +107,17 @@ export default function Signup() {
         if (error) {
             return (
                 <div className={classes.iroot}>
-                    <Alert severity="warning">{error}</Alert>
+                    <Alert severity="warning">{error.message}</Alert>
+                </div>
+            )
+        }
+    }
+
+     const infoDisplay = () => {
+        if (info) {
+            return (
+                <div className={classes.iroot}>
+                    <Alert severity="success">{info.message}</Alert>
                 </div>
             )
         }
@@ -110,6 +132,7 @@ export default function Signup() {
                 Sign up
             </Typography>
             {messageDisplay()}
+            {infoDisplay()}
             <form className={classes.form} noValidate>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>

@@ -66,7 +66,7 @@ const Userbar = (props) => {
                     aria-haspopup="true"
                     onClick={handleMenu}
                     color="inherit">
-                    <Avatar aria-label="avatar" bgColor="primary.contrastText" className={classes.avatar}>
+                    <Avatar aria-label="avatar" bgcolor="primary.contrastText" className={classes.avatar}>
                         {user.email.charAt(0)}
                     </Avatar>
                 </IconButton>
