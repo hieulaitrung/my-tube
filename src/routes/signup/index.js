@@ -48,8 +48,7 @@ export default function Signup() {
     const [email, setemail] = useState('');
     const [password, setpassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState(null);
-    const [info, setInfo] = useState(null);
+    const [msg, setMsg] = useState(null);
 
     function validateEmail(email) {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -84,40 +83,30 @@ export default function Signup() {
         event.preventDefault();
         if (firstName && lastName && email && password && confirmPassword) {
             if (password !== confirmPassword) {
-                setError({code: 'mismatch', message: 'Password and confirm password does not match.'});
+                setMsg({type: 'warning', code: 'mismatch', message: 'Password and confirm password does not match.'});
             } else if (!validateEmail(email)) {
-                setError({code: 'invalidEmail', message: 'Email format is invalid'});
+                setMsg({type: 'warning', code: 'invalidEmail', message: 'Email format is invalid'});
             } else {
                 createUserWithEmailAndPassword(email, password, (error) => {
                     if (error) {
-                        setError(error)
+                        setMsg({type: 'warning', ...error})
                     } else {
                         clear();
-                        setInfo({message: `Verification email has been sent to ${email}. Please check your inbox.`})
+                        setMsg({type:'success', message: `Verification email has been sent to ${email}. Please check your inbox.`})
                     }
                 })
             }
         } else {
-            setError({code: 'blank', message: 'Please fill all details bellow.'});
+            setMsg({type: 'warning',code: 'blank', message: 'Please fill all details bellow.'});
         }
 
     }
 
     const messageDisplay = () => {
-        if (error) {
+        if (msg) {
             return (
                 <div className={classes.iroot}>
-                    <Alert severity="warning">{error.message}</Alert>
-                </div>
-            )
-        }
-    }
-
-     const infoDisplay = () => {
-        if (info) {
-            return (
-                <div className={classes.iroot}>
-                    <Alert severity="success">{info.message}</Alert>
+                    <Alert severity={msg.type}>{msg.message}</Alert>
                 </div>
             )
         }
@@ -132,7 +121,6 @@ export default function Signup() {
                 Sign up
             </Typography>
             {messageDisplay()}
-            {infoDisplay()}
             <form className={classes.form} noValidate>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
