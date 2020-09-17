@@ -5,7 +5,8 @@ import cors from 'cors'
 import admin from 'firebase-admin';
 import dotenv from 'dotenv';
 import algoliasearch from 'algoliasearch';
-import { checkIfAuthenticated} from './middlewares/auth-middleware'
+import { checkIfAuthenticated } from './middlewares/auth-middleware'
+import { rateLimiter } from './middlewares/rateLimiter';
 
 dotenv.config()
 const app = express();
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, '../build')));
+app.set('trust proxy', 1)
 
 
 admin.initializeApp({
@@ -35,7 +37,7 @@ app.get('/apis/tubes', async (req, res) => {
     const filter = (typeof filterBy == "undefined") ? {} : {
         filters: `${filterBy}:${filterTerm}`
     };
-    
+
     const searchResponse = await index.search(searchTerm, filter);
     result.articles = searchResponse.hits
         .map(h => {
@@ -63,7 +65,7 @@ app.get('/apis/tubes/:tubeId/next', async (req, res) => {
     const searchResponse = await index.search('', {
         filters: `tag:${tube.data().tag} AND NOT objectID:${tubeId}`
     });
-    
+
     const result = { authors: [], articles: [] };
     result.articles = searchResponse.hits
         .map(h => {
@@ -85,7 +87,7 @@ app.get('/apis/tubes/:tubeId/next', async (req, res) => {
     res.send(result);
 });
 
-app.post('/apis/tubes', checkIfAuthenticated, async (req, res,) => {
+app.post('/apis/tubes', checkIfAuthenticated, rateLimiter, async (req, res,) => {
     //const obj = await db.collection('tubes').add(req.body);
 
     res.send("ok");
@@ -94,7 +96,7 @@ app.post('/apis/tubes', checkIfAuthenticated, async (req, res,) => {
 app.get('/apis/tubes/:tubeId', async (req, res) => {
     const tubeId = req.params.tubeId;
     const obj = await db.collection('tubes').doc(tubeId).get();
-    let result = {id: tubeId, ...obj.data()};
+    let result = { id: tubeId, ...obj.data() };
     res.send(result);
 });
 
