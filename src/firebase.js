@@ -14,57 +14,58 @@ const signInWithGoogle = () => {
   auth.signInWithPopup(provider);
 };
 
-const signIn = (email, password, callback = () => { }) => {
-  auth.signInWithEmailAndPassword(email, password)
-    .then(function (result) {
-      const { user } = result;
-      if (!user.emailVerified) {
-        callback({
-          code: 'unverified',
-          message: 'Your email address hasn\'t been verified',
-          user
-        });
-      } else {
-        callback();
-      }
-    }).catch(function (error) {
-      callback({
-        message: 'Your email or password is incorrect. Please try again.',
-        ...error
-      });
-    });
+const signIn = async (email, password) => {
+  try {
+    const { user } = await auth.signInWithEmailAndPassword(email, password);
+    if (!user.emailVerified) {
+      return {
+        code: 'unverified',
+        message: 'Your email address hasn\'t been verified',
+        user
+      };
+    } else {
+      return null;
+    }
+  } catch (error) {
+    return {
+      message: 'Your email or password is incorrect. Please try again.',
+      ...error
+    };
+  }
 }
 
-const sendEmailVerification = (user, callback = () => { }) => {
-  user.sendEmailVerification().then(function () {
-    callback()
-  }).catch(function (error) {
-    callback(error);
-  });
+const sendEmailVerification = async (user) => {
+  try {
+    await user.sendEmailVerification();
+  } catch (error) {
+    return error;
+  }
 }
 
-const signOut = (callback = () => { }) => {
-  auth.signOut()
-    .then(function (result) {
-      callback();
-    }).catch(function (error) {
-      callback(error);
-    });
+const signOut = async () => {
+  try {
+    await auth.signOut();
+  } catch (error) {
+    return error;
+  }
 }
 
-const createUserWithEmailAndPassword = async (email, password, callback = () => { }) => {
+const createUserWithEmailAndPassword = async (email, password) => {
   try {
     const { user } = await auth.createUserWithEmailAndPassword(email, password);
     await user.sendEmailVerification();
-    callback();
   }
   catch (error) {
-    callback(error);
+    return (error);
   }
 };
 
-const sendResetEmail = (email) => {
-  return auth.sendPasswordResetEmail(email)
+const sendResetEmail = async (email) => {
+  try {
+    await auth.sendPasswordResetEmail(email)
+  } catch (error) {
+    return error;
+  }
 };
 
 const generateUserDocument = async (user, additionalData) => {

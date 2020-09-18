@@ -54,26 +54,24 @@ const Login = () => {
     }
   }
 
-  const handleOnSubmit = (event) => {
+  const handleOnSubmit = async (event) => {
     event.preventDefault();
     if (email && password) {
-      signIn(email, password, (error) => {
-        if (error) {
-          setError(error);
-        } else {
-          history.push("/");
-        }
-      });
+      const error = await signIn(email, password);
+      if (error) {
+        setError(error);
+      } else {
+        history.push("/");
+      }
     } else {
       setError({code: 'invalid', message: 'Email or password is missing.'});
     }
   }
 
-  const resend = (event, user) => {
+  const resend = async (event, user) => {
     event.preventDefault();
-    sendEmailVerification(user, (error)=> {
-      setError(error);
-    });
+    const error = await sendEmailVerification(user); 
+    setError(error);
   };
 
   const messageDisplay = () => {

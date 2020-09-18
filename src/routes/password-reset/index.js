@@ -60,25 +60,26 @@ const PasswordReset = () => {
         }
     }
 
-    const handleOnSubmit = (event) => {
+    const handleOnSubmit = async (event) => {
         event.preventDefault();
-        if (email ) {
-            sendResetEmail(email).then(() => {
-                setMsg({
-                    type: 'info',
-                    data:'Reset link has been sent to your email.'
-                });
-              })
-              .catch((error) => {
+        if (email) {
+            const error = await sendResetEmail(email);
+            if (error) {
                 setMsg({
                     type: 'warning',
-                    data:`Error resetting password: ${error.message}.`
+                    data: `Error resetting password: ${error.message}.`
                 });
-              });
-        } else {
+            } else {
+                setMsg({
+                    type: 'success',
+                    data: 'Reset link has been sent to your email.'
+                });
+            };
+        }
+        else {
             setMsg({
                 type: 'warning',
-                data:'Please fill email to receive reset link.'
+                data: 'Please fill email to receive reset link.'
             });
         }
     }
@@ -119,14 +120,14 @@ const PasswordReset = () => {
                 >
                     Send Reset Link
           </Button>
-          <Grid container justify="flex-end">
+                <Grid container justify="flex-end">
                     <Grid item>
                         <Link component={RouterLink} to="/login" variant="body2">
                             Already have an account? Sign in
               </Link>
                     </Grid>
                 </Grid>
-                
+
             </form>
         </React.Fragment>
     )

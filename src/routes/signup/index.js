@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import { createUserWithEmailAndPassword } from '../../firebase'
+import { transformFromAstAsync } from '@babel/core';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -79,25 +80,25 @@ export default function Signup() {
     }
 
 
-    const handleOnSubmit = (event) => {
+    const handleOnSubmit = async (event) => {
         event.preventDefault();
         if (firstName && lastName && email && password && confirmPassword) {
             if (password !== confirmPassword) {
-                setMsg({type: 'warning', code: 'mismatch', message: 'Password and confirm password does not match.'});
+                setMsg({ type: 'warning', code: 'mismatch', message: 'Password and confirm password does not match.' });
             } else if (!validateEmail(email)) {
-                setMsg({type: 'warning', code: 'invalidEmail', message: 'Email format is invalid'});
+                setMsg({ type: 'warning', code: 'invalidEmail', message: 'Email format is invalid' });
             } else {
-                createUserWithEmailAndPassword(email, password, (error) => {
-                    if (error) {
-                        setMsg({type: 'warning', ...error})
-                    } else {
-                        clear();
-                        setMsg({type:'success', message: `Verification email has been sent to ${email}. Please check your inbox.`})
-                    }
-                })
+                const error = await createUserWithEmailAndPassword(email, password);
+                if (error) {
+                    setMsg({ type: 'warning', ...error })
+                } else {
+                    clear();
+                    setMsg({ type: 'success', message: `Verification email has been sent to ${email}. Please check your inbox.` })
+                }
+                
             }
         } else {
-            setMsg({type: 'warning',code: 'blank', message: 'Please fill all details bellow.'});
+            setMsg({ type: 'warning', code: 'blank', message: 'Please fill all details bellow.' });
         }
 
     }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
@@ -9,6 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import { signOut } from '../firebase'
+import UploadTubeDialog from './UploadTubeDialog'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
 const Userbar = (props) => {
     const classes = useStyles();
     const user = props.user;
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
     const handleMenu = (event) => {
@@ -49,17 +51,26 @@ const Userbar = (props) => {
         setAnchorEl(null);
     };
 
-    const handleSignOut = () => {
+    const handleClickOpenDialog = () => {
+        setOpenDialog(true);
+      };
+    
+      const handleCloseDialog = () => {
+        setOpenDialog(false);
+      };
+
+    const handleSignOut = async () => {
         handleClose();
-        signOut();
+        await signOut();
     };
 
     return (
         user ?
             <div>
-                <IconButton aria-label="upload" color="primary.contrastText" size="large"  onClick={() => {alert('TODO: open modal')}}>
+                <IconButton aria-label="upload" color="primary.contrastText" size="large"  onClick={handleClickOpenDialog}>
                     <VideoCallIcon />
                 </IconButton>
+                <UploadTubeDialog open={openDialog} handleClose={handleCloseDialog}/>
                 <IconButton
                     aria-label="account of current user"
                     aria-controls="menu-appbar"
