@@ -88,9 +88,12 @@ app.get('/apis/tubes/:tubeId/next', async (req, res) => {
 });
 
 app.post('/apis/tubes', checkIfAuthenticated, rateLimiter, async (req, res,) => {
-    //const obj = await db.collection('tubes').add(req.body);
-
-    res.send("ok");
+    const tube = req.body;
+    tube.authorId = req.currentUser.uid;
+    tube.date = admin.firestore.Timestamp.now();
+    const obj = await db.collection('tubes').add(tube);
+    tube.id = obj.id;
+    res.send(tube);
 });
 
 app.get('/apis/tubes/:tubeId', async (req, res) => {

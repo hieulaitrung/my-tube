@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 
 var firebaseConfig = JSON.parse(process.env.REACT_APP_FIREBASE_AUTHENTICATION_CONFIG);
 
@@ -10,6 +11,9 @@ const provider = new firebase.auth.GoogleAuthProvider();
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
+const storageRef = firebase.storage().ref();
+
+
 const signInWithGoogle = () => {
   auth.signInWithPopup(provider);
 };
@@ -103,6 +107,31 @@ const getUserDocument = async uid => {
   }
 };
 
+const uploadFile = (file, uid) => {
+  const name = autoId();
+  var metadata = {
+    customMetadata: {
+      originName: file.name
+    }
+  };
+
+  let fileRef = storageRef.child(`${uid}/${name}`);
+  return fileRef.put(file, metadata)
+};
+
+const autoId = () => {
+  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+
+  let autoId = ''
+
+  for (let i = 0; i < 20; i++) {
+    autoId += CHARS.charAt(
+      Math.floor(Math.random() * CHARS.length)
+    )
+  }
+  return autoId
+}
+
 export {
   auth,
   createUserWithEmailAndPassword,
@@ -111,5 +140,6 @@ export {
   sendEmailVerification,
   generateUserDocument,
   signOut,
-  sendResetEmail
+  sendResetEmail,
+  uploadFile
 }

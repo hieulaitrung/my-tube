@@ -67,7 +67,7 @@ const Userbar = (props) => {
     return (
         user ?
             <div>
-                <IconButton aria-label="upload" color="primary.contrastText" size="large"  onClick={handleClickOpenDialog}>
+                <IconButton aria-label="upload"  onClick={handleClickOpenDialog}>
                     <VideoCallIcon />
                 </IconButton>
                 <UploadTubeDialog open={openDialog} handleClose={handleCloseDialog}/>
@@ -77,7 +77,7 @@ const Userbar = (props) => {
                     aria-haspopup="true"
                     onClick={handleMenu}
                     color="inherit">
-                    <Avatar aria-label="avatar" bgcolor="primary.contrastText" className={classes.avatar}>
+                    <Avatar aria-label="avatar" className={classes.avatar}>
                         {user.email.charAt(0)}
                     </Avatar>
                 </IconButton>

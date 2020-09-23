@@ -5,6 +5,8 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Copyright from '../../components/Copyright';
 import Header from '../../components/Header';
 import Navbar from '../../components/Navbar';
@@ -12,7 +14,7 @@ import Navbar from '../../components/Navbar';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        
+
     },
     toolbar: {
         display: 'flex',
@@ -53,6 +55,15 @@ const DashboardLayout = ({ children, ...rest }) => {
                     <Copyright />
                 </Box>
             </main>
+            <ToastContainer position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover />
         </div>
     )
 }

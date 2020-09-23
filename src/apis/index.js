@@ -25,6 +25,19 @@ export const MyTubeAPI = () => {
             .then(res => res.json());
     }
 
+    const createTube = (tube, token) => {
+        let endpoint = `${url}/apis/tubes`;
+        return fetch(endpoint, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify(tube)
+        }).then(res => res.json());
+    }
+
     const lookupAuthor = (authors, authorId,) => {
         return authors.filter(a => a.id === authorId)[0];
     }
@@ -32,6 +45,7 @@ export const MyTubeAPI = () => {
     return {
         getTubes,
         getNextTubes,
+        createTube,
         getTube,
         lookupAuthor
     }
