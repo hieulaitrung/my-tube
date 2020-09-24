@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Copyright /> snapshot renders 1`] = `
+<p
+  className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+>
+  Copyright © 
+  <a
+    className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorInherit"
+    href="https://material-ui.com/"
+    onBlur={[Function]}
+    onFocus={[Function]}
+  >
+    MyTube
+  </a>
+   
+  2020
+  .
+</p>
+`;

@@ -66,6 +66,7 @@ const Tube = (props) => {
                         image="https://via.placeholder.com/150"
                         title={tube.title}
                     />
+                    <div></div>
                     <CardActions disableSpacing>
                         <IconButton onClick={(e) => { e.preventDefault(); alert('favorites')}} aria-label="add to favorites">
                             <FavoriteIcon />

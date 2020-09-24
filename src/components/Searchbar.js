@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -46,21 +45,19 @@ const useStyles = makeStyles((theme) => ({
 
 const Searchbar = (props) => {
   const classes = useStyles();
-  let history = useHistory();
-
   const [searchTerm, setSearchTerm] = useState('');
+  const handleSubmitSearch = props.handleSubmitSearch;
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   }
-  const handleSubmitSearch = (event) => {
+
+  const handleSubmit = (event, term) => {
     if (event.key === 'Enter') {
-      history.push({
-        pathname: "/search",
-        search: `?query=${searchTerm}`,
-      });
+      handleSubmitSearch(term);
     }
   }
+  
   return (
     <div className={classes.search}>
       <div className={classes.searchIcon}>
@@ -70,7 +67,7 @@ const Searchbar = (props) => {
         placeholder="Search…"
         value={searchTerm}
         onChange={handleSearch}
-        onKeyDown={handleSubmitSearch}
+        onKeyDown={(event) => handleSubmit(event, searchTerm)}
         classes={{
           root: classes.inputRoot,
           input: classes.inputInput,
