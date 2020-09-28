@@ -15,7 +15,7 @@ const tube = {
         email: 'example@fake.com'
     },
     date: 1
-}
+};
 
 describe('<Tube />', () => {
     test('snapshot renders', () => {

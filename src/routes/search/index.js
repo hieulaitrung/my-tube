@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useLocation} from "react-router-dom";
-import {MyTubeAPI} from '../../apis'
+import api from '../../apis'
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -24,7 +24,7 @@ const Search = (props) => {
     const [items, setItems] = useState([]);
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    const api = MyTubeAPI();
+    
     const num = Object.values(items).length;
     useEffect(() => {
         const res = api.getTubes(query);

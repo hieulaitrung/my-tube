@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Switch from '@material-ui/core/Switch';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,11 +21,15 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
     },
+    wrapper: {
+        position: "relative",
+        display: "flex",
+        flexDirection: "column"
+    },
     fab: {
-        position: "absolute",
-        bottom: theme.spacing(2),
-        right: theme.spacing(3)
-    }
+       marginLeft: "auto",
+       display: "flex",
+    },
 }));
 
 const getSteps = () => {
@@ -36,7 +41,6 @@ const getStepContent = (stepIndex, tube, handleOnchange) => {
         case 0:
             return (
                 <React.Fragment>
-                    <Typography variant="subtitle1">File name: {tube.fileName}</Typography>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -86,6 +90,7 @@ const getStepContent = (stepIndex, tube, handleOnchange) => {
 const UploadStepper = (props) => {
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
+    const loading = props.loading;
     const tube = props.tube;
     const setTube = props.setTube;
     const handleCreateTube = props.handleCreateTube;
@@ -123,17 +128,18 @@ const UploadStepper = (props) => {
                 ))}
             </Stepper>
             <div>
-                <div>
+                <div className={classes.wrapper}>
                     {getStepContent(activeStep, tube, handleOnchange)}
                     <div className={classes.fab}>
+                        {loading && <CircularProgress className={classes.buttonProgress} />}
                         <Button
-                            disabled={activeStep === 0}
+                            disabled={activeStep === 0 || loading}
                             onClick={handleBack}
-                            className={classes.backButton}
-                        >
+                            className={classes.backButton}>
                             Back
-                </Button>
-                        <Button variant="contained" color="primary" onClick={handleNext}>
+                        </Button>
+
+                        <Button disabled={loading} variant="contained" color="primary" onClick={handleNext}>
                             {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                         </Button>
                     </div>

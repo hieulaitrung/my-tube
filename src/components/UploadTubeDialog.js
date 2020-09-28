@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import TubeDropzone from './TubeDropzone'
 import UploadStepper from './UploadStepper'
 import { uploadFile, auth } from '../firebase'
-import { MyTubeAPI } from '../apis'
+import api from '../apis'
 import firebase from "firebase/app";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,11 +28,10 @@ const useStyles = makeStyles((theme) => ({
 
 const UploadTubeDialog = (props) => {
   const classes = useStyles();
-  const [tube, setTube] =  useState({});
+  const [tube, setTube] = useState({});
   const [loading, setLoading] = useState(false);
   const openDialog = props.open;
   const handleCloseDialog = props.handleClose;
-  const api = MyTubeAPI();
 
 
   const handleUpload = (acceptedFiles) => {
@@ -60,16 +59,21 @@ const UploadTubeDialog = (props) => {
         toast.error(`Technical error: ${error.message}`);
       }, function () {
         setLoading(false);
-        const newTube = {...tube};
-        newTube.fileName = uploadTask.snapshot.metadata.customMetadata.originName;
-        newTube.fileId = uploadTask.snapshot.ref.name;
+        const newTube = {
+          ...tube,
+          fileName: uploadTask.snapshot.metadata.customMetadata.originName,
+          fileId: uploadTask.snapshot.ref.name,
+          fileSource: 'mytube'
+        };
         setTube(newTube);
       });
   }
 
   const handleCreateTube = async (tube) => {
+    setLoading(true);
     const token = await auth.currentUser.getIdToken();
     const result = await api.createTube(tube, token);
+    setLoading(false);
     if (result.error) {
       toast.error(result.error);
     } else {
@@ -93,8 +97,8 @@ const UploadTubeDialog = (props) => {
         </IconButton>
       </DialogTitle>
       <DialogContent className={classes.content} dividers>
-        {!tube.fileId && <TubeDropzone loading={loading} handleUpload={handleUpload} />}
-        {tube.fileId && <UploadStepper tube={tube} setTube={setTube} handleCreateTube={handleCreateTube} />}
+        {!tube.fileName && <TubeDropzone loading={loading} handleUpload={handleUpload} />}
+        {tube.fileName && <UploadStepper loading={loading} tube={tube} setTube={setTube} handleCreateTube={handleCreateTube} />}
 
       </DialogContent>
     </Dialog>

@@ -8,7 +8,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import "video-react/dist/video-react.css"; // import css
 import { Player } from 'video-react';
-import { MyTubeAPI } from '../../apis'
+import api from '../../apis'
 import NextTubeList from '../../components/NextTubeList'
 
 
@@ -47,7 +47,7 @@ const Watch = () => {
 
     const dateDisplay = new Date(tube.date).toDateString();
 
-    const api = MyTubeAPI();
+    
     useEffect(() => {
         const res = api.getTube(video);
         res.then(

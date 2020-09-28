@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import TubeList from '../../components/TubeList';
-import {MyTubeAPI} from '../../apis'
+import api from '../../apis'
 
 const Home = (props) => {
     const [items, setItems] = useState([]);
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
-
-    const api = MyTubeAPI();
+    
     useEffect(() => {
         const res = api.getTubes();
         res.then(

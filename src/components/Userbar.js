@@ -10,95 +10,22 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import { signOut } from '../firebase'
 import UploadTubeDialog from './UploadTubeDialog'
+import ProfileButton from './ProfileButton'
+import UploadButton from './UploadButton'
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        width: 350,
-        height: 330
-    },
-    media: {
-        height: 0,
-        paddingTop: '56.25%', // 16:9
-    },
-    expand: {
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
-        }),
-    },
-    expandOpen: {
-        transform: 'rotate(180deg)',
-    },
-    avatar: {
-        width: theme.spacing(4),
-        height: theme.spacing(4),
-    },
 }));
 
 const Userbar = (props) => {
     const classes = useStyles();
     const user = props.user;
-    const [openDialog, setOpenDialog] = useState(false);
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-
-    const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handleClickOpenDialog = () => {
-        setOpenDialog(true);
-      };
     
-      const handleCloseDialog = () => {
-        setOpenDialog(false);
-      };
-
-    const handleSignOut = async () => {
-        handleClose();
-        await signOut();
-    };
 
     return (
         user ?
             <div>
-                <IconButton aria-label="upload"  onClick={handleClickOpenDialog}>
-                    <VideoCallIcon />
-                </IconButton>
-                <UploadTubeDialog open={openDialog} handleClose={handleCloseDialog}/>
-                <IconButton
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleMenu}
-                    color="inherit">
-                    <Avatar aria-label="avatar" className={classes.avatar}>
-                        {user.email.charAt(0)}
-                    </Avatar>
-                </IconButton>
-                <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    open={open}
-                    onClose={handleClose}>
-                    <MenuItem >{user.email}</MenuItem>
-                    <Divider />
-                    <MenuItem onClick={handleSignOut}>Logout</MenuItem>
-                </Menu>
+                <UploadButton />
+                <ProfileButton user={user} />
             </div> :
             <Button component={RouterLink} to="/login" color="inherit">Login</Button>
     )

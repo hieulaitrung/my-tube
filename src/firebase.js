@@ -108,14 +108,15 @@ const getUserDocument = async uid => {
 };
 
 const uploadFile = (file, uid) => {
-  const name = autoId();
+  const name = `${autoId()}.mp4`;
   var metadata = {
     customMetadata: {
-      originName: file.name
+      originName: file.name,
+      source: 'mytube'
     }
   };
 
-  let fileRef = storageRef.child(`${uid}/${name}`);
+  let fileRef = storageRef.child(`${uid}/videos/${name}`);
   return fileRef.put(file, metadata)
 };
 
