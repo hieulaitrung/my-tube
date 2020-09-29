@@ -145,15 +145,20 @@ app.get('/apis/tubes/:tubeId', async (req, res) => {
 //Move to cloud functions
 app.get('/apis/videos/info', async (req, res) => {
     const link = req.query.link;
-    const info = await ytdl.getInfo(link);
-    res.send({
-        id: info.videoDetails.videoId,
-        title: info.videoDetails.title,
-        body: info.videoDetails.shortDescription,
-        length: info.videoDetails.lengthSeconds,
-        thumbnails: info.player_response.videoDetails.thumbnail.thumbnails,
-        author: info.videoDetails.author
-    });
+    try {
+        const info = await ytdl.getInfo(link);
+
+        res.send({
+            id: info.videoDetails.videoId,
+            title: info.videoDetails.title,
+            body: info.videoDetails.shortDescription,
+            length: info.videoDetails.lengthSeconds,
+            thumbnails: info.player_response.videoDetails.thumbnail.thumbnails,
+            author: info.videoDetails.author
+        });
+    } catch (e) {
+        res.send({error: e.message});
+    }
 });
 
 app.get('*', (req, res) => {
