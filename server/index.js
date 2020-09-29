@@ -8,9 +8,25 @@ import algoliasearch from 'algoliasearch';
 import { checkIfAuthenticated } from './middlewares/auth-middleware'
 import { rateLimiter } from './middlewares/rateLimiter';
 import ytdl from 'ytdl-core'
+import Bugsnag from '@bugsnag/js'
+import BugsnagPluginExpress from '@bugsnag/plugin-express'
 
 dotenv.config()
+Bugsnag.start({
+    apiKey: process.env.BUGSNAG_API_KEY,
+    plugins: [BugsnagPluginExpress]
+});
+
+admin.initializeApp({
+    credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)),
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET
+});
+
+
 const app = express();
+const middleware = Bugsnag.getPlugin('express');
+
+app.use(middleware.requestHandler);
 app.use(cors());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -18,14 +34,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, '../build')));
+app.use(middleware.errorHandler)
 app.set('trust proxy', 1)
 
-
-
-admin.initializeApp({
-    credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)),
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET
-});
 
 const db = admin.firestore();
 const bucket = admin.storage().bucket();
@@ -145,20 +156,18 @@ app.get('/apis/tubes/:tubeId', async (req, res) => {
 //Move to cloud functions
 app.get('/apis/videos/info', async (req, res) => {
     const link = req.query.link;
-    try {
-        const info = await ytdl.getInfo(link);
 
-        res.send({
-            id: info.videoDetails.videoId,
-            title: info.videoDetails.title,
-            body: info.videoDetails.shortDescription,
-            length: info.videoDetails.lengthSeconds,
-            thumbnails: info.player_response.videoDetails.thumbnail.thumbnails,
-            author: info.videoDetails.author
-        });
-    } catch (e) {
-        res.send({error: e.message});
-    }
+    const info = await ytdl.getInfo(link);
+
+    res.send({
+        id: info.videoDetails.videoId,
+        title: info.videoDetails.title,
+        body: info.videoDetails.shortDescription,
+        length: info.videoDetails.lengthSeconds,
+        thumbnails: info.player_response.videoDetails.thumbnail.thumbnails,
+        author: info.videoDetails.author
+    });
+
 });
 
 app.get('*', (req, res) => {
