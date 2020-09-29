@@ -32,7 +32,16 @@ const useStyles = makeStyles((theme) => ({
 const NextTube = (props) => {
     const classes = useStyles();
     const tube = props.item;
-    const dateDisplay = new Date(tube.date).toDateString();
+    const dateDisplay = new Date(tube.date._seconds* 1000).toDateString();
+
+    const getThumbnail = () => {
+        try {
+            return tube.thumbnails.filter(t => t.width === 246)[0].url;
+        } catch (e) {
+            console.error(`Failed to get thumbnail for ${tube.id}`, e);
+            return 'https://via.placeholder.com/246'
+        }
+    }
 
     return (
         <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
@@ -40,7 +49,7 @@ const NextTube = (props) => {
             <Card className={classes.root} square>
                 <CardMedia
                     className={classes.media}
-                    image="https://via.placeholder.com/150"
+                    image={getThumbnail()}
                     title={tube.title}
                 />
 

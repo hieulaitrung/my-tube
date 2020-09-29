@@ -62,7 +62,8 @@ app.get('/apis/tubes', async (req, res) => {
                 body: h.body,
                 title: h.title,
                 date: h.date,
-                tag: h.tag
+                tag: h.tag,
+                thumbnails: h.thumbnails
             }
         });
 
@@ -90,7 +91,8 @@ app.get('/apis/tubes/:tubeId/next', async (req, res) => {
                 body: h.body,
                 title: h.title,
                 date: h.date,
-                tag: h.tag
+                tag: h.tag,
+                thumbnails: h.thumbnails
             }
         });
 

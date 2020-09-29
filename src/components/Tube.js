@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     link: {
         '&:hover': {
             'text-decoration': 'none',
-          }
+        }
     },
     media: {
         height: 0,
@@ -47,10 +47,19 @@ const Tube = (props) => {
     const tube = props.item;
     const classes = useStyles();
     const authorFirstName = tube.author.email.charAt(0);
-    const dateDisplay = new Date(tube.date).toDateString();
+    const dateDisplay = new Date(tube.date._seconds * 1000).toDateString();
+
+    const getThumbnail = () => {
+        try {
+            return tube.thumbnails.filter(t => t.width === 246)[0].url;
+        } catch (e) {
+            console.error(`Failed to get thumbnail for ${tube.id}`, e);
+            return 'https://via.placeholder.com/246'
+        }
+    }
     return (
-            <Grid item>
-                <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
+        <Grid item>
+            <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
                 <Card className={classes.root}>
                     <CardHeader
                         avatar={
@@ -63,23 +72,23 @@ const Tube = (props) => {
                     />
                     <CardMedia
                         className={classes.media}
-                        image="https://via.placeholder.com/150"
+                        image={getThumbnail()}
                         title={tube.title}
                     />
                     <div></div>
                     <CardActions disableSpacing>
-                        <IconButton onClick={(e) => { e.preventDefault(); alert('favorites')}} aria-label="add to favorites">
+                        <IconButton onClick={(e) => { e.preventDefault(); alert('favorites') }} aria-label="add to favorites">
                             <FavoriteIcon />
                         </IconButton>
-                        <IconButton  onClick={(e) => { e.preventDefault(); alert('share')}} aria-label="share">
+                        <IconButton onClick={(e) => { e.preventDefault(); alert('share') }} aria-label="share">
                             <ShareIcon />
                         </IconButton>
                     </CardActions>
 
                 </Card>
-                </Link>
-            </Grid>
-        
+            </Link>
+        </Grid>
+
     )
 }
 

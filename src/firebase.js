@@ -120,6 +120,10 @@ const uploadFile = (file, uid) => {
   return fileRef.put(file, metadata)
 };
 
+const getDownloadURL =  async (ref) => {
+  return await storageRef.child(ref).getDownloadURL();
+}
+
 const autoId = () => {
   const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
@@ -142,5 +146,6 @@ export {
   generateUserDocument,
   signOut,
   sendResetEmail,
-  uploadFile
+  uploadFile,
+  getDownloadURL
 }

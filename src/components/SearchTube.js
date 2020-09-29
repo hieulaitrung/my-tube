@@ -50,12 +50,21 @@ const SearchTube = (props) => {
     const tube = props.item;
     const bodyDisplay = textDisplay(tube.body);
 
+    const getThumbnail = () => {
+        try {
+            return tube.thumbnails.filter(t => t.width === 246)[0].url;
+        } catch (e) {
+            console.error(`Failed to get thumbnail for ${tube.id}`, e);
+            return 'https://via.placeholder.com/246'
+        }
+    }
+
     return (
         <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
         <Card className={classes.root} square>
             <CardMedia
                 className={classes.media}
-                image="https://via.placeholder.com/150"
+                image={getThumbnail()}
                 title={tube.title}
             />
             <div className={classes.details}>

@@ -41,7 +41,8 @@ const FetchTubeDialog = (props) => {
             fileName: info.id,
             fileAuthor: info.author.name,
             title: info.title,
-            body: info.body
+            body: info.body,
+            thumbnails: info.thumbnails
         };
         setLoading(false);
         setTube(newTube);
