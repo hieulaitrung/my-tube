@@ -147,13 +147,23 @@ app.post('/apis/tubes/file', checkIfAuthenticated, rateLimiter, async (req, res)
         });
 });
 
+app.delete('/apis/tubes/:tubeId', checkIfAuthenticated, rateLimiter, async (req, res) => {
+    const tubeId = req.params.tubeId;
+    const uid = req.currentUser.uid;
+    const obj = await db.collection('tubes').doc(tubeId).get();
+    const file = bucket.file(`${uid}/videos/${obj.data().fileId}`);
+    await db.collection('tubes').doc(tubeId).delete();
+    await file.delete();
+    let result = { id: tubeId };
+    res.send(result);
+});
+
 app.get('/apis/tubes/:tubeId', async (req, res) => {
     const tubeId = req.params.tubeId;
     const obj = await db.collection('tubes').doc(tubeId).get();
     let result = { id: tubeId, ...obj.data() };
     res.send(result);
 });
-
 
 //Move to cloud functions
 app.get('/apis/videos/info', async (req, res) => {
