@@ -43,6 +43,7 @@ const bucket = admin.storage().bucket();
 const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_SEARCH_KEY);
 const index = client.initIndex('tubes');
 
+
 app.get('/apis/tubes', async (req, res) => {
     const searchTerm = req.query.term;
     const filterBy = req.query.filterBy;
@@ -130,10 +131,11 @@ app.post('/apis/tubes/file', checkIfAuthenticated, rateLimiter, async (req, res)
     const uid = req.currentUser.uid;
     const name = `${autoId()}.mp4`;
     const file = bucket.file(`${uid}/videos/${name}`);
-    ytdl(link, { quality: 'lowest' })
+    //TODO: support audio only?
+    ytdl(link, { quality: 'highest' })
         .pipe(file.createWriteStream({
             metadata: {
-                contentType: 'video/mp4',
+                contentType: 'video/,mp4',
                 metadata: {
                     originName: link,
                     source: 'youtube'
