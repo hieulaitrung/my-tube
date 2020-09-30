@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import TubeThumbnail from '../TubeThumbnail';
 
 const useStyles = makeStyles((theme) => ({
     link: {
@@ -34,24 +35,11 @@ const NextTube = (props) => {
     const tube = props.item;
     const dateDisplay = new Date(tube.date._seconds* 1000).toDateString();
 
-    const getThumbnail = () => {
-        try {
-            return tube.thumbnails.filter(t => t.width === 246)[0].url;
-        } catch (e) {
-            console.error(`Failed to get thumbnail for ${tube.id}`, e);
-            return 'https://via.placeholder.com/246'
-        }
-    }
-
     return (
         <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
 
             <Card className={classes.root} square>
-                <CardMedia
-                    className={classes.media}
-                    image={getThumbnail()}
-                    title={tube.title}
-                />
+                <TubeThumbnail className={classes.media} tube={tube} width={246} />
 
                 <CardContent className={classes.details}>
                     

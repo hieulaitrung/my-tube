@@ -8,8 +8,8 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import api from '../../apis'
 import { getDownloadURL } from '../../firebase'
-import NextTubeList from '../../components/NextTubeList'
-import TubeWatch from '../../components/TubeWatch';
+import NextTubeList from '../../components/watch/NextTubeList'
+import TubeWatch from '../../components/watch/TubeWatch';
 
 
 const useStyles = makeStyles((theme) => ({

@@ -50,17 +50,6 @@ const TubeFetchZone = (props) => {
         handleUpload(link);
     }
 
-    // const getThumbnail = () => {
-    //     try {
-    //         return info.thumbnails.filter(t => t.width === 246)[0];
-    //     } catch (e) {
-    //         console.error(`Failed to get thumbnail for ${info.id}`, e);
-    //         return { url: 'https://via.placeholder.com/246' }
-    //     }
-
-    // }
-
-
     return (
         <div className={classes.root}>
             <form className={classes.form} onSubmit={handleSubmit} noValidate autoComplete="off">

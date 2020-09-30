@@ -3,7 +3,7 @@ import { act } from "react-dom/test-utils";
 import { BrowserRouter as Router } from 'react-router-dom';
 import { mount } from 'enzyme';
 import Home from '../home'
-import TubeList from '../../components/TubeList'
+import TubeList from '../../components/home/TubeList'
 import api from '../../apis'
 
 

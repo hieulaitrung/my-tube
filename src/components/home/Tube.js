@@ -4,7 +4,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import { red } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import React from 'react';
+import TubeThumbnail from '../TubeThumbnail';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -48,15 +48,6 @@ const Tube = (props) => {
     const classes = useStyles();
     const authorFirstName = tube.author.email.charAt(0);
     const dateDisplay = new Date(tube.date._seconds * 1000).toDateString();
-
-    const getThumbnail = () => {
-        try {
-            return tube.thumbnails.filter(t => t.width === 246)[0].url;
-        } catch (e) {
-            console.error(`Failed to get thumbnail for ${tube.id}`, e);
-            return 'https://via.placeholder.com/246'
-        }
-    }
     return (
         <Grid item>
             <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
@@ -70,12 +61,7 @@ const Tube = (props) => {
                         title={tube.title}
                         subheader={dateDisplay}
                     />
-                    <CardMedia
-                        className={classes.media}
-                        image={getThumbnail()}
-                        title={tube.title}
-                    />
-                    <div></div>
+                    <TubeThumbnail className={classes.media} tube={tube} width={246} />
                     <CardActions disableSpacing>
                         <IconButton onClick={(e) => { e.preventDefault(); alert('favorites') }} aria-label="add to favorites">
                             <FavoriteIcon />

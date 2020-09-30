@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TubeList from '../../components/TubeList';
+import TubeList from '../../components/home/TubeList';
 import api from '../../apis'
 
 const Home = (props) => {

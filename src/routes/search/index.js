@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Typography from '@material-ui/core/Typography';
-import SearchTube from '../../components/SearchTube'
+import SearchTube from '../../components/search/SearchTube'
 
 const useStyles = makeStyles((theme) => ({
     gridList: {

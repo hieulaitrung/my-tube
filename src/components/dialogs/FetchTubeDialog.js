@@ -7,10 +7,10 @@ import Typography from '@material-ui/core/Typography';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { toast } from 'react-toastify';
-import { auth } from '../firebase'
-import api from '../apis';
-import TubeFetchZone from './TubeFetchZone';
-import UploadStepper from './UploadStepper';
+import { auth } from '../../firebase'
+import api from '../../apis';
+import TubeFetchZone from '../TubeFetchZone';
+import UploadStepper from '../UploadStepper';
 
 const useStyles = makeStyles((theme) => ({
     closeButton: {

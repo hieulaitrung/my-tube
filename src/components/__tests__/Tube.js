@@ -1,5 +1,5 @@
 import React from 'react';
-import Tube from '../Tube';
+import Tube from '../home/Tube';
 import renderer from 'react-test-renderer';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { mount } from 'enzyme';

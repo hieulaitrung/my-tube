@@ -7,10 +7,10 @@ import Typography from '@material-ui/core/Typography';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { toast } from 'react-toastify';
-import TubeDropzone from './TubeDropzone'
-import UploadStepper from './UploadStepper'
-import { uploadFile, auth } from '../firebase'
-import api from '../apis'
+import TubeDropzone from '../TubeDropzone'
+import UploadStepper from '../UploadStepper'
+import { uploadFile, auth } from '../../firebase'
+import api from '../../apis'
 import firebase from "firebase/app";
 
 const useStyles = makeStyles((theme) => ({

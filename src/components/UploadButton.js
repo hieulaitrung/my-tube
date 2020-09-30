@@ -2,11 +2,11 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 import React, { useState } from 'react';
-import UploadTubeDialog from './UploadTubeDialog';
+import UploadTubeDialog from './dialogs/UploadTubeDialog';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
-import FetchTubeDialog from './FetchTubeDialog';
+import FetchTubeDialog from './dialogs/FetchTubeDialog';
 
 const useStyles = makeStyles((theme) => ({
     video: {

@@ -1,6 +1,6 @@
 import React from 'react';
-import TubeList from '../TubeList';
-import Tube from '../Tube';
+import TubeList from '../home/TubeList';
+import Tube from '../home/Tube';
 import { shallow } from 'enzyme';
 
 describe('<TubeList />', () => {
