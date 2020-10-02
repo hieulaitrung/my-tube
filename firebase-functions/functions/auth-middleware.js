@@ -1,4 +1,4 @@
-import admin from 'firebase-admin';
+const admin = require('firebase-admin');
 
 
 const getIdToken = (req) => {
@@ -13,15 +13,18 @@ const getIdToken = (req) => {
 
 }
 
-export const checkIfAuthenticated = async (req, res, next) => {
+const checkIfAuthenticated = async (req, res, next) => {
     const idToken = getIdToken(req);
     try {
         const userInfo = await admin.auth().verifyIdToken(idToken);
         req.currentUser = userInfo;
-        next();
+        return next();
     } catch (e) {
+        console.log(e);
         return res
         .status(401)
         .send({ error: 'You are not authorized to make this request' });
     }
 }
+
+exports.checkIfAuthenticated = checkIfAuthenticated;

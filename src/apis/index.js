@@ -1,5 +1,5 @@
 
-const url = process.env.REACT_APP_SERVER_URL || 'http://localhost:5000'
+const url = process.env.REACT_APP_FIREBASE_FUNCTION_URL
 
 const getTubes = (term, filterBy, filterTerm) => {
     let endpoint = `${url}/apis/tubes?`;
@@ -43,12 +43,12 @@ const lookupAuthor = (authors, authorId,) => {
 }
 
 const getVideoInfo = (link) => {
-    let endpoint = `${url}/apis/videos/info?link=${encodeURIComponent(link)}`;
+    let endpoint = `${url}/videos/info?link=${encodeURIComponent(link)}`;
     return fetch(endpoint).then(res => res.json());
 }
 
 const fetchVideo = (link, token) => {
-    let endpoint = `${url}/apis/tubes/file?link=${encodeURIComponent(link)}`;
+    let endpoint = `${url}/videos/file?link=${encodeURIComponent(link)}`;
     return fetch(endpoint, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

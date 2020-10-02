@@ -1,5 +1,17 @@
 const functions = require('firebase-functions');
 const algoliasearch = require('algoliasearch');
+const admin = require('firebase-admin');
+const runtimeOpts = {
+    timeoutSeconds: 300,
+    memory: '1GB'
+}
+
+admin.initializeApp({
+    credential: admin.credential.cert(functions.config().service_account),
+    storageBucket: functions.config().storage.bucket
+});
+
+const app = require('./app');
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -37,13 +49,14 @@ exports.onTubeUpdated = functions.firestore.document('tubes/{tubeId}').onUpdate(
 
 
 exports.onTubeDeleted = functions.firestore.document('tubes/{tubeId}').onDelete((snap, context) => {
-        // Get an object representing the document prior to deletion
-        // e.g. {'name': 'Marie', 'age': 66}
-        const tube = snap.data();
-        tube.objectID = context.params.tubeId;
+    // Get an object representing the document prior to deletion
+    // e.g. {'name': 'Marie', 'age': 66}
+    const tube = snap.data();
+    tube.objectID = context.params.tubeId;
 
-        const index = client.initIndex(ALGOLIA_INDEX_NAME);
-        return index.deleteObject(tube.objectID);
-        // perform desired operations ...
+    const index = client.initIndex(ALGOLIA_INDEX_NAME);
+    return index.deleteObject(tube.objectID);
+    // perform desired operations ...
 });
 
+exports.app = functions.runWith(runtimeOpts).https.onRequest(app);
