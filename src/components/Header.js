@@ -28,14 +28,6 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
   menuButton: {
     marginRight: 36,
   },
@@ -70,9 +62,7 @@ const AppToolbar = (props) => {
   return (
     <AppBar
       position="fixed"
-      className={clsx(classes.appBar, {
-        [classes.appBarShift]: open,
-      })}
+      className={classes.appBar}
     >
       <Toolbar>
         <IconButton
@@ -80,7 +70,7 @@ const AppToolbar = (props) => {
           aria-label="open drawer"
           onClick={handleOpen}
           edge="start"
-          className={clsx(classes.menuButton, open && classes.hide)}
+          className={classes.menuButton}
         >
           <MenuIcon />
         </IconButton>

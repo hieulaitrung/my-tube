@@ -9,7 +9,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Copyright from '../../components/Copyright';
 import Header from '../../components/Header';
-import Navbar from '../../components/Navbar';
+import InvisibleDrawer from '../../components/InvisibleDrawer';
+import VisibleDrawer from '../../components/VisibleDrawer';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -47,7 +48,8 @@ const DashboardLayout = ({ children, ...rest }) => {
             <Header open={open}
                 handleOpen={handleDrawerOpen}
             />
-            <Navbar open={open} handleClose={handleDrawerClose} />
+            <InvisibleDrawer open={open} handleClose={handleDrawerClose} />
+            <VisibleDrawer />
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 {children}
