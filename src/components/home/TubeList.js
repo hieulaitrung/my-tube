@@ -14,9 +14,11 @@ const TubeList = (props) => {
     const tubes = props.items;
     const classes = useStyles();
     return (
-        <Grid container className={classes.root} spacing={2}>
+        <Grid container justify="center"  className={classes.root} spacing={2}>
             {Object.values(tubes).map((tube) => 
-                <Tube item={tube}  key={tube.id} / >
+                <Grid item key={tube.id}>
+                    <Tube item={tube} / >
+                </Grid>
             )}
         </Grid>
     )

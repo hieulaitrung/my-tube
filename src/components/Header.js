@@ -14,14 +14,14 @@ import Userbar from './Userbar'
 import { useHistory } from "react-router-dom";
 
 
-const drawerWidth = 240;
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexGrow: 1,
   },
   appBar: {
+    border: 'none',
+    backgroundColor: theme.palette.common.white,
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -63,10 +63,11 @@ const AppToolbar = (props) => {
     <AppBar
       position="fixed"
       className={classes.appBar}
+      variant="outlined"
     >
       <Toolbar>
         <IconButton
-          color="inherit"
+          
           aria-label="open drawer"
           onClick={handleOpen}
           edge="start"
@@ -76,8 +77,9 @@ const AppToolbar = (props) => {
         </IconButton>
 
         <Typography variant="h6" noWrap className={classes.title}>
-          <Link className={classes.link} color="inherit" component={RouterLink} to="/">
-            MyTube
+          <Link className={classes.link} color="textSecondary" component={RouterLink} to="/">
+              MyTube
+            
           </Link>
         </Typography>
 

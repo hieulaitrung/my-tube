@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
         whiteSpace: 'nowrap',
     },
     drawerClose: {
+        border: 'none',
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
-    },
+    }
 }));
 const VisibleNavbar = () => {
     const classes = useStyles();
@@ -53,7 +54,7 @@ const VisibleNavbar = () => {
                     <ChevronLeftIcon />
                 </IconButton>
             </div>
-            <Divider />
+            
             <List>{mainListItems}</List>
         </Drawer>
     )

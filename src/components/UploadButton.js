@@ -9,9 +9,6 @@ import Divider from '@material-ui/core/Divider';
 import FetchTubeDialog from './dialogs/FetchTubeDialog';
 
 const useStyles = makeStyles((theme) => ({
-    video: {
-        color: 'white',
-    }
 }));
 
 const UploadButton = () => {

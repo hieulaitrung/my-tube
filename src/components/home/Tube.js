@@ -1,22 +1,20 @@
-import { Link as RouterLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
-import { red } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
+import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import TubeThumbnail from '../TubeThumbnail';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: 350,
-        height: 330
+        width: 270,
+        height: 250,
+        border: 'none',
+        background: 'transparent'
     },
     link: {
         '&:hover': {
@@ -27,18 +25,12 @@ const useStyles = makeStyles((theme) => ({
         height: 0,
         paddingTop: '56.25%', // 16:9
     },
-    expand: {
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
-        }),
+    content: {
+        paddingTop: theme.spacing(1.5)
     },
-    expandOpen: {
-        transform: 'rotate(180deg)',
-    },
-    avatar: {
-        backgroundColor: red[500],
+    header: {
+        padding: 0,
+        alignItems: 'flex-start'
     },
 
 }));
@@ -51,26 +43,20 @@ const Tube = (props) => {
     return (
         <Grid item>
             <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
-                <Card className={classes.root}>
-                    <CardHeader
-                        avatar={
-                            <Avatar aria-label="recipe" className={classes.avatar}>
-                                {authorFirstName}
-                            </Avatar>
-                        }
-                        title={tube.title}
-                        subheader={dateDisplay}
-                    />
-                    <TubeThumbnail className={classes.media} tube={tube} width={246} />
-                    <CardActions disableSpacing>
-                        <IconButton onClick={(e) => { e.preventDefault(); alert('favorites') }} aria-label="add to favorites">
-                            <FavoriteIcon />
-                        </IconButton>
-                        <IconButton onClick={(e) => { e.preventDefault(); alert('share') }} aria-label="share">
-                            <ShareIcon />
-                        </IconButton>
-                    </CardActions>
-
+                <Card className={classes.root} variant="outlined" square="true">
+                        <TubeThumbnail className={classes.media} tube={tube} width={246} />
+                        <CardContent className={classes.content}>
+                            <CardHeader
+                                avatar={
+                                    <Avatar aria-label="recipe">
+                                        {authorFirstName}
+                                    </Avatar>
+                                }
+                                title={tube.title}
+                                subheader={dateDisplay}
+                                className={classes.header}
+                            />
+                        </CardContent>
                 </Card>
             </Link>
         </Grid>
