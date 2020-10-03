@@ -10,12 +10,14 @@ import api from '../../apis'
 import { getDownloadURL } from '../../firebase'
 import NextTubeList from '../../components/watch/NextTubeList'
 import TubeWatch from '../../components/watch/TubeWatch';
+import { useMediaQuery, useTheme } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        width: '100%'
+    container: {
+        [theme.breakpoints.down('xs')]: {
+            padding: theme.spacing(2)
+          },
     },
     info: {
         display: 'flex',
@@ -34,10 +36,15 @@ const useQuery = () => {
 
 
 const Watch = () => {
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down('xs'));
     const classes = useStyles();
     const video = useQuery().get("v");
     const [tube, setTube] = useState(null);
     const [nextTubes, setNextTubes] = useState([]);
+    const watchxs = matches ? 12 : 8;
+    const nextxs = matches ? 12 : 4;
+
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -75,9 +82,10 @@ const Watch = () => {
 
 
     return (
-        tube ?
+    <div className={classes.container}>
+        { tube ?
             <Grid container spacing={3}>
-                <Grid container item xs={8}>
+                <Grid container item xs={watchxs}>
                     <Grid item xs={12}>
                         <TubeWatch tube={tube} />
                         <Divider />
@@ -98,7 +106,7 @@ const Watch = () => {
                     </Grid>
                 </Grid>
 
-                <Grid container direction="column" item xs={4}>
+                <Grid container direction="column" item xs={nextxs}>
                     <Grid item>
                         <Typography variant="subtitle2">
                             Up next
@@ -110,7 +118,8 @@ const Watch = () => {
                 </Grid>
             </Grid>
             // TODO: Should use placeholder?
-            : null
+            : null}
+        </div>
 
     )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import SearchIcon from '@material-ui/icons/Search';
@@ -58,12 +58,15 @@ const Searchbar = (props) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('xs'));
   const classes = useStyles();
-  const query = useQuery().get("query");
-  const [searchTerm, setSearchTerm] = useState(query);
+  const query = useQuery().get("query") || '';
+  const [searchTerm, setSearchTerm] = useState('');
   const expandSearch = props.expandSearch;
   const handleSubmitSearch = props.handleSubmitSearch;
   const handleExpandSearch = props.handleExpandSearch;
 
+  useEffect(() => {
+    setSearchTerm(query);
+  }, [query]);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);

@@ -41,7 +41,7 @@ const Tube = (props) => {
     const dateDisplay = new Date(tube.date._seconds * 1000).toDateString();
     return (
         <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
-            <Card className={classes.root} variant="outlined" square="true">
+            <Card className={classes.root} variant="outlined" square={true}>
                 <TubeThumbnail className={classes.media} tube={tube} width={246} />
                 <CardContent className={classes.content}>
                     <CardHeader

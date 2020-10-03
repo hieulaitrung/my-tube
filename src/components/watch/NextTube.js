@@ -17,7 +17,9 @@ const useStyles = makeStyles((theme) => ({
         'margin-bottom': theme.spacing(1),
     },
     root: {
-        display: 'flex'
+        display: 'flex',
+        border: 'none',
+        background: 'transparent'
     },
     media: {
         width: 150,
@@ -26,7 +28,10 @@ const useStyles = makeStyles((theme) => ({
     },
     details: {
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        paddingTop: 0,
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1)
     }
 }));
 
@@ -38,12 +43,12 @@ const NextTube = (props) => {
     return (
         <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
 
-            <Card className={classes.root} square>
+            <Card className={classes.root} square variant="outlined">
                 <TubeThumbnail className={classes.media} tube={tube} width={246} />
 
                 <CardContent className={classes.details}>
                     
-                        <Typography gutterBottom variant="subtitle2" component="h2">
+                        <Typography gutterBottom variant="subtitle1" component="h2">
                             {tube.title}
                         </Typography>
 
@@ -51,7 +56,7 @@ const NextTube = (props) => {
                             Author
                         </Typography>
                         
-                        <Typography variant="caption" component="p">60K views - {dateDisplay}</Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">60K views - {dateDisplay}</Typography>
 
                 </CardContent>
 

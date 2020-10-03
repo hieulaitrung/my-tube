@@ -8,7 +8,7 @@ import SearchTube from '../../components/search/SearchTube'
 import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-    searchContainer: {
+    container: {
         [theme.breakpoints.down('xs')]: {
             padding: theme.spacing(2)
           },
@@ -50,7 +50,7 @@ const Search = (props) => {
     }, [query])
 
     return (
-        <div className={classes.searchContainer}>
+        <div className={classes.container}>
             <Typography color="textSecondary" variant="body1">Found {num} item(s)</Typography>
             <Grid container justify="center" className={classes.root} spacing={2}>
                 {Object.values(items).map((tube) =>

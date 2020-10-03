@@ -19,7 +19,7 @@ const TubeList = (props) => {
     const xs = matches ? 12 : 3;
     
     return (
-        <Grid container justify="left"  className={classes.root} spacing={2}>
+        <Grid container className={classes.root} spacing={2}>
             {Object.values(tubes).map((tube) => 
                 <Grid item key={tube.id} xs={xs}>
                     <Tube item={tube} / >
