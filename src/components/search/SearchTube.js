@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     link: {
         '&:hover': {
             'text-decoration': 'none',
-          }
+        }
     },
     root: {
         display: 'flex',
@@ -22,10 +22,15 @@ const useStyles = makeStyles((theme) => ({
     },
     thumbnail: {
         display: 'flex',
-        
+
     },
     media: {
-        width: 250,
+        [theme.breakpoints.up('xs')]: {
+            width: 250,
+        },
+        [theme.breakpoints.down('xs')]: {
+            width: 200,
+        },
     },
     details: {
         display: 'flex',
@@ -36,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const textDisplay = (text) => {
     const limit = 100;
-    if ( text && text.length >= limit) {
+    if (text && text.length >= limit) {
         text = text.slice(0, limit - 3) + "..."
     }
     return text;
@@ -49,21 +54,21 @@ const SearchTube = (props) => {
 
     return (
         <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
-        <Card className={classes.root} square variant="outlined">
-            <div className={classes.thumbnail}>
-            <TubeThumbnail className={classes.media} tube={tube} width={246} />
-            </div>
-            <div className={classes.details}>
-                <CardContent className={classes.content}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        {tube.title}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {bodyDisplay}
-                    </Typography>
-                </CardContent>
-            </div>
-        </Card>
+            <Card className={classes.root} square variant="outlined">
+                <div className={classes.thumbnail}>
+                    <TubeThumbnail className={classes.media} tube={tube} width={246} />
+                </div>
+                <div className={classes.details}>
+                    <CardContent className={classes.content}>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            {tube.title}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            {bodyDisplay}
+                        </Typography>
+                    </CardContent>
+                </div>
+            </Card>
         </Link>
     )
 }

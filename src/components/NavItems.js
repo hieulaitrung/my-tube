@@ -1,11 +1,18 @@
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import PeopleIcon from '@material-ui/icons/People';
+import HomeIcon from '@material-ui/icons/Home';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
+import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import React from 'react';
 import ListItemLink from './ListItemLink';
 
-export const mainListItems = (
-  <div>
-     <ListItemLink to="/" primary="Dashboard" icon={<DashboardIcon />} />
-     <ListItemLink to="/private" primary="People" icon={<PeopleIcon />} />
-  </div>
-);
+const NavItems = (props) => {
+  const showText = props.showText;
+  return (
+    <div>
+     <ListItemLink to="/" primary="Home" icon={<HomeIcon />} showText={showText} />
+     <ListItemLink to="/" primary="Trending" icon={<WhatshotIcon />} showText={showText} />
+     <ListItemLink to="/private" primary="Library" icon={<VideoLibraryIcon />} showText={showText}  />
+    </div>
+  )
+};
+
+export default NavItems

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -11,6 +11,7 @@ import { auth } from '../../firebase'
 import api from '../../apis';
 import TubeFetchZone from '../TubeFetchZone';
 import UploadStepper from '../UploadStepper';
+import { useMediaQuery } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     closeButton: {
@@ -20,12 +21,18 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.grey[500],
     },
     content: {
-        width: 500,
-
+        [theme.breakpoints.up('xs')]: {
+            minWidth: 500,
+        },
+        [theme.breakpoints.down('xs')]: {
+            minWidth: 300
+        },
     }
 }));
 
 const FetchTubeDialog = (props) => {
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down('xs'));
     const classes = useStyles();
     const [tube, setTube] = useState({});
     const [loading, setLoading] = useState(false);
@@ -75,7 +82,7 @@ const FetchTubeDialog = (props) => {
     return (
         <Dialog open={openDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
             <DialogTitle disableTypography >
-                <Typography variant="h6">Fetch video from Youtube</Typography>
+                <Typography variant={matches ? 'subtitle1' : 'h6'}>Fetch video from Youtube</Typography>
                 <IconButton aria-label="close" className={classes.closeButton} onClick={handleClose}>
                     <CloseIcon />
                 </IconButton>

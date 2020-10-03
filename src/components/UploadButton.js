@@ -3,12 +3,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 import React, { useState } from 'react';
 import UploadTubeDialog from './dialogs/UploadTubeDialog';
+import BackupIcon from '@material-ui/icons/Backup';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
+import YouTubeIcon from '@material-ui/icons/YouTube';
 import FetchTubeDialog from './dialogs/FetchTubeDialog';
 
 const useStyles = makeStyles((theme) => ({
+    icon: {
+        marginRight: theme.spacing(1)
+    }
 }));
 
 const UploadButton = () => {
@@ -47,7 +52,7 @@ const UploadButton = () => {
     return (
         <React.Fragment>
             <IconButton aria-label="upload" onClick={handleMenu}>
-                <VideoCallIcon className={classes.video}/>
+                <VideoCallIcon className={classes.video} />
             </IconButton>
             <Menu
                 id="menu-appbar"
@@ -64,9 +69,15 @@ const UploadButton = () => {
                 keepMounted
                 open={open}
                 onClose={handleClose}>
-                <MenuItem onClick={handleClickOpenFetchDialog} >Fetch from YouTube</MenuItem>
+                <MenuItem onClick={handleClickOpenFetchDialog} >
+                    <YouTubeIcon color="secondary" className={classes.icon} />
+                    Fetch from YouTube
+                    </MenuItem>
                 <Divider />
-                <MenuItem onClick={handleClickOpenDialog}>Upload from device</MenuItem>
+                <MenuItem onClick={handleClickOpenDialog}>
+                    <BackupIcon color="primary" className={classes.icon} />
+                    Upload from device
+                    </MenuItem>
             </Menu>
             <FetchTubeDialog open={openFetchDialog} handleClose={handleCloseFetchDialog} />
             <UploadTubeDialog open={openDialog} handleClose={handleCloseDialog} />

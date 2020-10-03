@@ -7,7 +7,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import React from 'react';
-import { mainListItems } from './NavItems';
+import NavItems from './NavItems';
 import { Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import ListItemLink from './ListItemLink';
@@ -42,7 +42,9 @@ const Navbar = (props) => {
           </List>
         
         <Divider />
-        <List>{mainListItems}</List>
+        <List>
+          <NavItems/>
+        </List>
       </div>
     </Drawer>
   )

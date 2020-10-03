@@ -2,7 +2,7 @@ import React from 'react'
 import { Drawer, makeStyles, IconButton, Divider, List } from '@material-ui/core'
 import clsx from 'clsx';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems } from './NavItems';
+import NavItems from './NavItems';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
         whiteSpace: 'nowrap',
         [theme.breakpoints.down('xs')]: {
             display: 'none'
-          },
+        },
     },
     drawerClose: {
         border: 'none',
@@ -57,8 +57,10 @@ const VisibleNavbar = () => {
                     <ChevronLeftIcon />
                 </IconButton>
             </div>
-            
-            <List>{mainListItems}</List>
+
+            <List>
+                <NavItems showText={false} />
+            </List>
         </Drawer>
     )
 }

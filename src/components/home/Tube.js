@@ -2,7 +2,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
-import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
@@ -13,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         border: 'none',
-        background: 'transparent'
+        background: 'transparent',
     },
     link: {
         '&:hover': {
@@ -25,7 +24,13 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: '56.25%', // 16:9
     },
     content: {
-        paddingTop: theme.spacing(1.5)
+        paddingTop: theme.spacing(1.5),
+        [theme.breakpoints.up("xs")]: {
+            paddingLeft: 0
+        },
+        [theme.breakpoints.down("xs")]: {
+            paddingLeft: theme.spacing(1.5)
+        }
     },
     header: {
         padding: 0,

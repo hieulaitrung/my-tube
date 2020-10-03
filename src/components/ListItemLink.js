@@ -7,27 +7,28 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 
 const ListItemLink = (props) => {
-    const { icon, primary, to } = props;
-  
-    const renderLink = React.useMemo(
-      () => React.forwardRef((itemProps, ref) => <RouterLink to={to} ref={ref} {...itemProps} />),
-      [to],
-    );
-  
-    return (
-      <li>
-        <ListItem button component={renderLink}>
-          {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
-          <ListItemText primary={primary} />
-        </ListItem>
-      </li>
-    );
-  }
-  
-  ListItemLink.propTypes = {
-    icon: PropTypes.element,
-    primary: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
-  };
+  const { icon, primary, to } = props;
+  const showText = (props.showText != null) ? props.showText : true;
+  const iconOnlyStyle = { minWidth: 'auto', margin: '0 auto' };
+  const renderLink = React.useMemo(
+    () => React.forwardRef((itemProps, ref) => <RouterLink to={to} ref={ref} {...itemProps} />),
+    [to],
+  );
 
-  export default ListItemLink
+  return (
+    <li>
+      <ListItem button component={renderLink}>
+        {icon ? <ListItemIcon style={showText ? {} : iconOnlyStyle} >{icon}</ListItemIcon> : null}
+        {showText && <ListItemText primary={primary} />}
+      </ListItem>
+    </li>
+  );
+}
+
+ListItemLink.propTypes = {
+  icon: PropTypes.element,
+  primary: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+};
+
+export default ListItemLink

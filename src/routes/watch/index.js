@@ -108,7 +108,7 @@ const Watch = () => {
 
                 <Grid container direction="column" item xs={nextxs}>
                     <Grid item>
-                        <Typography variant="subtitle2">
+                        <Typography variant="subtitle1">
                             Up next
                 </Typography>
                     </Grid>

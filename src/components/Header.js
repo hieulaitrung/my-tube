@@ -29,7 +29,12 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   menuButton: {
-    marginRight: 36,
+    [theme.breakpoints.up('xs')]: {
+      marginRight: theme.spacing(2),
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginRight: 0,
+    },
   },
   hide: {
     display: 'none',
