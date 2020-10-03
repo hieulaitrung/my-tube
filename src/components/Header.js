@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
-import React, { useContext } from 'react';
+import React, { useContext, useState, useCallback} from 'react';
 import { UserContext } from '../providers/UserProvider'
 import Searchbar from './Searchbar'
 import Userbar from './Userbar'
@@ -45,19 +45,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const AppToolbar = (props) => {
+const Header = (props) => {
   const user = useContext(UserContext);
   const classes = useStyles();
-  const open = props.open;
   const handleOpen = props.handleOpen;
+  const [expandSearch, setExpandSearch] = useState(false);
   let history = useHistory();
 
-  const handleSubmitSearch = (term) => {
+  const handleSubmitSearch = useCallback((term) => {
     history.push({
       pathname: "/search",
       search: `?query=${term}`,
     });
-  }
+  }, [history]);
+
+  const handleExpandSearch = useCallback(
+    (value) => {
+      setExpandSearch(value);
+    },[]);
 
   return (
     <AppBar
@@ -66,28 +71,32 @@ const AppToolbar = (props) => {
       variant="outlined"
     >
       <Toolbar>
-        <IconButton
-          
-          aria-label="open drawer"
-          onClick={handleOpen}
-          edge="start"
-          className={classes.menuButton}
-        >
-          <MenuIcon />
-        </IconButton>
-
-        <Typography variant="h6" noWrap className={classes.title}>
-          <Link className={classes.link} color="textSecondary" component={RouterLink} to="/">
-              MyTube
+        {!expandSearch &&
+        <React.Fragment>
+          <IconButton
             
-          </Link>
-        </Typography>
+            aria-label="open drawer"
+            onClick={handleOpen}
+            edge="start"
+            className={classes.menuButton}
+          >
+            <MenuIcon />
+          </IconButton>
 
-        <Searchbar handleSubmitSearch={handleSubmitSearch} />
-        <Userbar user={user} />
+          <Typography variant="h6" noWrap className={classes.title}>
+            <Link className={classes.link} color="textSecondary" component={RouterLink} to="/">
+                MyTube
+              
+            </Link>
+          </Typography>
+        </React.Fragment>
+      }
+
+        <Searchbar expandSearch={expandSearch} handleExpandSearch={handleExpandSearch} handleSubmitSearch={handleSubmitSearch} />
+        <Userbar expandSearch={expandSearch}  user={user} />
       </Toolbar>
     </AppBar>
   )
 }
 
-export default AppToolbar
+export default Header

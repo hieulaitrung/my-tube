@@ -9,6 +9,9 @@ const useStyles = makeStyles((theme) => ({
     drawer: {
         flexShrink: 0,
         whiteSpace: 'nowrap',
+        [theme.breakpoints.down('xs')]: {
+            display: 'none'
+          },
     },
     drawerClose: {
         border: 'none',
