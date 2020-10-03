@@ -11,8 +11,7 @@ import TubeThumbnail from '../TubeThumbnail';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: 270,
-        height: 250,
+        width: '100%',
         border: 'none',
         background: 'transparent'
     },
@@ -41,26 +40,23 @@ const Tube = (props) => {
     const authorFirstName = tube.author.email.charAt(0);
     const dateDisplay = new Date(tube.date._seconds * 1000).toDateString();
     return (
-        <Grid item>
-            <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
-                <Card className={classes.root} variant="outlined" square="true">
-                        <TubeThumbnail className={classes.media} tube={tube} width={246} />
-                        <CardContent className={classes.content}>
-                            <CardHeader
-                                avatar={
-                                    <Avatar aria-label="recipe">
-                                        {authorFirstName}
-                                    </Avatar>
-                                }
-                                title={tube.title}
-                                subheader={dateDisplay}
-                                className={classes.header}
-                            />
-                        </CardContent>
-                </Card>
-            </Link>
-        </Grid>
-
+        <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
+            <Card className={classes.root} variant="outlined" square="true">
+                <TubeThumbnail className={classes.media} tube={tube} width={246} />
+                <CardContent className={classes.content}>
+                    <CardHeader
+                        avatar={
+                            <Avatar aria-label="recipe">
+                                {authorFirstName}
+                            </Avatar>
+                        }
+                        title={tube.title}
+                        subheader={dateDisplay}
+                        className={classes.header}
+                    />
+                </CardContent>
+            </Card>
+        </Link>
     )
 }
 

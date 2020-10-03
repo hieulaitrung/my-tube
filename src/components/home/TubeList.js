@@ -1,7 +1,8 @@
 import React from 'react'
 import Tube from './Tube'
 import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { useMediaQuery } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -13,10 +14,14 @@ const useStyles = makeStyles((theme) => ({
 const TubeList = (props) => {
     const tubes = props.items;
     const classes = useStyles();
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down('xs'));
+    const xs = matches ? 12 : 3;
+    
     return (
-        <Grid container justify="center"  className={classes.root} spacing={2}>
+        <Grid container justify="left"  className={classes.root} spacing={2}>
             {Object.values(tubes).map((tube) => 
-                <Grid item key={tube.id}>
+                <Grid item key={tube.id} xs={xs}>
                     <Tube item={tube} / >
                 </Grid>
             )}

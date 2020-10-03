@@ -5,6 +5,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { IconButton } from '@material-ui/core';
+import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   inputRoot: {
     color: 'inherit',
+    width: '100%'
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -48,11 +50,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+}
+
 const Searchbar = (props) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('xs'));
   const classes = useStyles();
-  const [searchTerm, setSearchTerm] = useState('');
+  const query = useQuery().get("query");
+  const [searchTerm, setSearchTerm] = useState(query);
   const expandSearch = props.expandSearch;
   const handleSubmitSearch = props.handleSubmitSearch;
   const handleExpandSearch = props.handleExpandSearch;

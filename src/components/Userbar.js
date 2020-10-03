@@ -16,7 +16,7 @@ const Userbar = (props) => {
                     <UploadButton />
                     <ProfileButton user={user} />
                 </div> :
-                <Button component={RouterLink} to="/login" color="textSecondary">Login</Button>
+                <Button component={RouterLink} to="/login">Login</Button>
             : <div></div>
     )
 }

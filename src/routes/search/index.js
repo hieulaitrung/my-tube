@@ -1,21 +1,23 @@
-import React, {useState, useEffect} from 'react';
-import {useLocation} from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 import api from '../../apis'
 import { makeStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
+
 import Typography from '@material-ui/core/Typography';
 import SearchTube from '../../components/search/SearchTube'
+import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-    gridList: {
-        width: 900,
+    searchContainer: {
+        [theme.breakpoints.down('xs')]: {
+            padding: theme.spacing(2)
+          },
     }
 }));
 
-const useQuery =() => {
+const useQuery = () => {
     return new URLSearchParams(useLocation().search);
-  }
+}
 
 const Search = (props) => {
     const classes = useStyles();
@@ -24,18 +26,18 @@ const Search = (props) => {
     const [items, setItems] = useState([]);
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    
+
     const num = Object.values(items).length;
     useEffect(() => {
         const res = api.getTubes(query);
         res.then(
             (result) => {
-              setIsLoaded(true);
-              const articles = result.articles;
-              if (articles.length) {
-                articles.map(a => a.author = api.lookupAuthor(result.authors, a.authorId));
-              }
-              setItems(articles);
+                setIsLoaded(true);
+                const articles = result.articles;
+                if (articles.length) {
+                    articles.map(a => a.author = api.lookupAuthor(result.authors, a.authorId));
+                }
+                setItems(articles);
             },
             // Note: it's important to handle errors here
             // instead of a catch() block so that we don't swallow
@@ -44,20 +46,23 @@ const Search = (props) => {
                 setIsLoaded(true);
                 setError(e);
             }
-          )
-      }, [query])
+        )
+    }, [query])
 
     return (
-        <React.Fragment>
+        <div className={classes.searchContainer}>
             <Typography color="textSecondary" variant="body1">Found {num} item(s)</Typography>
-            <GridList cellHeight={180} className={classes.gridList} cols={1}>
-                <GridListTile key="Subheader" cols={1} style={{ height: 'auto' }}>
-                    {Object.values(items).map((tube) => 
-                        <SearchTube item={tube}  key={tube.id} / >
-                    )}
-                </GridListTile>
-            </GridList>
-        </React.Fragment>
+            <Grid container justify="center" className={classes.root} spacing={2}>
+                {Object.values(items).map((tube) =>
+                    <Grid item key={tube.id} xs={12} >
+                        <SearchTube item={tube} />
+                    </Grid>
+                )}
+            </Grid>
+
+
+
+        </div>
     )
 }
 
