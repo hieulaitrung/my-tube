@@ -6,6 +6,7 @@ import InputBase from '@material-ui/core/InputBase';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { IconButton } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
+import IconLoaderButton from './placeholder/IconLoaderButton';
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -56,13 +57,14 @@ const useQuery = () => {
 
 const Searchbar = (props) => {
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down('xs'));
+  const matches = useMediaQuery(theme.breakpoints.down('xs'), { noSsr: true });
   const classes = useStyles();
   const query = useQuery().get("query") || '';
   const [searchTerm, setSearchTerm] = useState('');
   const expandSearch = props.expandSearch;
   const handleSubmitSearch = props.handleSubmitSearch;
   const handleExpandSearch = props.handleExpandSearch;
+  const userLoading = props.userLoading;
 
   useEffect(() => {
     setSearchTerm(query);
@@ -105,9 +107,11 @@ const Searchbar = (props) => {
       }
       {matches && !expandSearch &&
         <div color="textSecondary" className={classes.miniSearch}>
-          <IconButton aria-label="search" onClick={() => { handleExpandSearch(true) }}>
-            <SearchIcon />
-          </IconButton>
+          {userLoading ? <IconLoaderButton /> :
+            <IconButton aria-label="search" onClick={() => { handleExpandSearch(true) }}>
+              <SearchIcon />
+            </IconButton>
+          }
         </div>
       }
     </React.Fragment>

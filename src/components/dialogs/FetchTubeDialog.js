@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FetchTubeDialog = (props) => {
     const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.down('xs'));
+    const matches = useMediaQuery(theme.breakpoints.down('xs'), { noSsr: true });
     const classes = useStyles();
     const [tube, setTube] = useState({});
     const [loading, setLoading] = useState(false);

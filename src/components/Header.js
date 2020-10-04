@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Header = (props) => {
-  const user = useContext(UserContext);
+  const {user, userLoading} = useContext(UserContext);
   const classes = useStyles();
   const handleOpen = props.handleOpen;
   const [expandSearch, setExpandSearch] = useState(false);
@@ -97,8 +97,8 @@ const Header = (props) => {
         </React.Fragment>
       }
 
-        <Searchbar expandSearch={expandSearch} handleExpandSearch={handleExpandSearch} handleSubmitSearch={handleSubmitSearch} />
-        <Userbar expandSearch={expandSearch}  user={user} />
+        <Searchbar userLoading={userLoading} expandSearch={expandSearch} handleExpandSearch={handleExpandSearch} handleSubmitSearch={handleSubmitSearch} />
+        <Userbar userLoading={userLoading} expandSearch={expandSearch}  user={user} />
       </Toolbar>
     </AppBar>
   )

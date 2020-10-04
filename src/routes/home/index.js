@@ -27,7 +27,7 @@ const Home = (props) => {
       }, [])
 
     return (
-        <TubeList items={items} />
+        <TubeList isLoaded={isLoaded} items={items} />
     )
 }
 

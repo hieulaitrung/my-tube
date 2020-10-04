@@ -37,7 +37,7 @@ const useQuery = () => {
 
 const Watch = () => {
     const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.down('xs'));
+    const matches = useMediaQuery(theme.breakpoints.down('xs'), { noSsr: true });
     const classes = useStyles();
     const video = useQuery().get("v");
     const [tube, setTube] = useState(null);

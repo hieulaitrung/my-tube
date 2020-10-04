@@ -2,6 +2,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import UploadTubeDialog from './dialogs/UploadTubeDialog';
 import BackupIcon from '@material-ui/icons/Backup';
 import Menu from '@material-ui/core/Menu';
@@ -16,8 +17,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const UploadButton = () => {
+const UploadButton = (props) => {
     const classes = useStyles();
+    const user = props.user;
+    let history = useHistory();
     const [openDialog, setOpenDialog] = useState(false);
     const [openFetchDialog, setOpenFetchDialog] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -32,8 +35,12 @@ const UploadButton = () => {
     };
 
     const handleClickOpenDialog = () => {
-        handleClose();
-        setOpenDialog(true);
+        if (user) {
+            handleClose();
+            setOpenDialog(true);
+        } else {
+            history.push("/login");
+        }
     };
 
     const handleCloseDialog = () => {
@@ -41,8 +48,12 @@ const UploadButton = () => {
     };
 
     const handleClickOpenFetchDialog = () => {
-        handleClose();
-        setOpenFetchDialog(true);
+        if (user) {
+            handleClose();
+            setOpenFetchDialog(true);
+        } else {
+            history.push("/login");
+        }
     };
 
     const handleCloseFetchDialog = () => {

@@ -7,6 +7,7 @@ export const UserContext = React.createContext();
 
 const UserProvider = (props) => {
   const [user, setUser] = useState(null);
+  const [userLoading, setUserLoading] = useState(true);
   const [idToken, setIdToken] = useState(null)
   let history = useHistory();
 
@@ -14,6 +15,7 @@ const UserProvider = (props) => {
     auth.onAuthStateChanged(async userAuth => {
       const userDetails = await generateUserDocument(userAuth);
       setUser(userDetails);
+      setUserLoading(false);
       if (userDetails) {
         const token = await auth.currentUser.getIdToken();
         setIdToken(token);
@@ -24,7 +26,7 @@ const UserProvider = (props) => {
   }, []);
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={{user, userLoading}}>
       {props.children}
     </UserContext.Provider>
   );
