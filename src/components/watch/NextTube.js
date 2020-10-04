@@ -44,7 +44,7 @@ const NextTube = (props) => {
         <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
 
             <Card className={classes.root} square variant="outlined">
-                <TubeThumbnail className={classes.media} tube={tube} width={246} />
+                <TubeThumbnail className={classes.media} tube={tube}/>
 
                 <CardContent className={classes.details}>
                     

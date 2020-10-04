@@ -47,7 +47,7 @@ const Tube = (props) => {
     return (
         <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
             <Card className={classes.root} variant="outlined" square={true}>
-                <TubeThumbnail className={classes.media} tube={tube} width={246} />
+                <TubeThumbnail className={classes.media} tube={tube}/>
                 <CardContent className={classes.content}>
                     <CardHeader
                         avatar={

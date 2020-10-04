@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
             width: 200,
         },
     },
+    content: {
+        paddingTop: 0
+    },
     details: {
         display: 'flex',
         flexDirection: 'column',
@@ -56,11 +59,11 @@ const SearchTube = (props) => {
         <Link className={classes.link} component={RouterLink} to={`/watch?v=${tube.id}`}>
             <Card className={classes.root} square variant="outlined">
                 <div className={classes.thumbnail}>
-                    <TubeThumbnail className={classes.media} tube={tube} width={246} />
+                    <TubeThumbnail className={classes.media} tube={tube}/>
                 </div>
                 <div className={classes.details}>
                     <CardContent className={classes.content}>
-                        <Typography gutterBottom variant="h5" component="h2">
+                        <Typography gutterBottom variant="h5">
                             {tube.title}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">

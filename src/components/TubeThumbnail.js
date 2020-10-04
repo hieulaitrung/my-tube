@@ -1,21 +1,21 @@
 import React, { useMemo } from 'react'
-import { CardMedia, makeStyles } from '@material-ui/core';
+import { CardMedia } from '@material-ui/core';
 
 const TubeThumbnail = (props) => {
     const className = props.className;
     const tube = props.tube;
-    const width = props.width;
 
     const thumbnail = useMemo(
         () => {
             try {
-                return tube.thumbnails.filter(t => t.width === width)[0].url;
+                const thumbnails = tube.thumbnails.sort((i,j) => i.width -  j.width);
+                return thumbnails[thumbnails.length-1].url;
             } catch (e) {
-                return `https://via.placeholder.com/${width}`
+                return `https://via.placeholder.com/256`
             }
             // Do expensive calculation and return.
         },
-        [tube, width]
+        [tube]
     )
 
 
