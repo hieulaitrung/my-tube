@@ -25,7 +25,7 @@ const LoginLayout = ({ children, ...rest }) => {
             <div className={classes.paper}>
                 {children}
             </div>
-            <Box mt={8}>
+            <Box p={4}>
                 <Copyright />
             </Box>
         </Container>

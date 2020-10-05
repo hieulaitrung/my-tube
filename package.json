@@ -22,6 +22,8 @@
     "video-react": "^0.14.1"
   },
   "devDependencies": {
+    "webpack-bundle-analyzer": "^3.9.0",
+    "progress-bar-webpack-plugin": "^2.1.0",
     "@babel/cli": "^7.11.6",
     "@babel/core": "^7.11.5",
     "@babel/node": "^7.10.5",
@@ -42,12 +44,10 @@
   "scripts": {
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "server": "nodemon --watch server --exec babel-node server/index.js",
+    "server": "nodemon --watch server",
     "client": "react-scripts start",
     "dev": "concurrently \"yarn run server\" \"yarn run client\"",
-    "start": "node dist-server/index.js",
-    "transpile": "babel server --out-dir dist-server --copy-files",
-    "heroku-postbuild": "yarn run build && yarn run transpile"
+    "start": "node server"
   },
   "eslintConfig": {
     "extends": "react-app"
