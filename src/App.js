@@ -1,7 +1,7 @@
 import './wdyr';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import './App.css';
 import Home from './routes/home';
@@ -18,14 +18,9 @@ import UserProvider from './providers/UserProvider'
 const useStyles = makeStyles((theme) => ({
 }));
 
-const theme = createMuiTheme();
+let theme = createMuiTheme();
 
-theme.typography.h5 = {
-  fontSize: '1.5rem',
-  [theme.breakpoints.down('xs')]: {
-    fontSize: '1rem',
-  },
-};
+theme = responsiveFontSizes(theme);
 
 function App() {
   const classes = useStyles();
