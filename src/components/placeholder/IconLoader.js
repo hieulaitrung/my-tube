@@ -7,7 +7,7 @@ const IconLoader = (props) => (
     width={32}
     height={32}
     viewBox="0 0 32 32"
-    backgroundColor="#f3f3f3"
+    backgroundColor="#e6e6e6"
     foregroundColor="#ecebeb"
     {...props}
   >

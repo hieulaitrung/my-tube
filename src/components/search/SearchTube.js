@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
     },
     root: {
         display: 'flex',
-        marginBottom: theme.spacing(1),
         border: 'none',
         backgroundColor: 'transparent',
         height: 140

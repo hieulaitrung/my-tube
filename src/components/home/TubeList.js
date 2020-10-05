@@ -22,19 +22,18 @@ const TubeList = (props) => {
 
     return (
         <Grid container className={classes.root} spacing={2}>
-            {!isLoaded ? (
+            {!isLoaded ?
                 Array.from(Array(12).keys()).map(i =>
                     (
                         <Grid item xs={xs} key={i}>
                             <TubeLoader key={i} />
                         </Grid>
                     ))
-            ) : (
-                    Object.values(tubes).map((tube) =>
-                        <Grid item key={tube.id} xs={xs}>
-                            <Tube item={tube} key={tube.id} />
-                        </Grid>)
-                )
+                :
+                Object.values(tubes).map((tube) =>
+                    <Grid item key={tube.id} xs={xs}>
+                        <Tube item={tube} key={tube.id} />
+                    </Grid>)
             }
         </Grid>
     )

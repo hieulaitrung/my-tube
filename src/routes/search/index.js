@@ -5,13 +5,15 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
 import SearchTube from '../../components/search/SearchTube'
-import { Grid } from '@material-ui/core';
+import { Grid, Box } from '@material-ui/core';
+import SearchTubeLoader from '../../components/placeholder/SearchTubeLoader';
+import TextLoader from '../../components/placeholder/TextLoader';
 
 const useStyles = makeStyles((theme) => ({
     container: {
         [theme.breakpoints.down('xs')]: {
             padding: theme.spacing(2)
-          },
+        },
     }
 }));
 
@@ -25,10 +27,11 @@ const Search = (props) => {
 
     const [items, setItems] = useState([]);
     const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(true);
 
     const num = Object.values(items).length;
     useEffect(() => {
+        setIsLoaded(false)
         const res = api.getTubes(query);
         res.then(
             (result) => {
@@ -51,13 +54,26 @@ const Search = (props) => {
 
     return (
         <div className={classes.container}>
-            <Typography color="textSecondary" variant="body1">Found {num} item(s)</Typography>
+            <Box mb={1}>
+                {!isLoaded ?
+                    <TextLoader /> :
+                    <Typography color="textSecondary" variant="body1">Found {num} item(s)</Typography>
+                }
+            </Box>
             <Grid container justify="center" className={classes.root} spacing={2}>
-                {Object.values(items).map((tube) =>
-                    <Grid item key={tube.id} xs={12} >
-                        <SearchTube item={tube} />
-                    </Grid>
-                )}
+                {!isLoaded ?
+                    Array.from(Array(5).keys()).map(i =>
+                        (
+                            <Grid item xs={12} key={i}>
+                                <SearchTubeLoader key={i} />
+                            </Grid>
+                        ))
+                    :
+                    Object.values(items).map((tube) =>
+                        <Grid item key={tube.id} xs={12} >
+                            <SearchTube item={tube} />
+                        </Grid>
+                    )}
             </Grid>
 
 

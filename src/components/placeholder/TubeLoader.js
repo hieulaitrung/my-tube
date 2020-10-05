@@ -14,7 +14,7 @@ const TubeLoader = (props) => {
                 height={254}
                 viewBox="0 0 280 254"
                 style={{ width: '100%', height: 'auto' }}
-                backgroundColor="#f3f3f3"
+                backgroundColor="#e6e6e6"
                 foregroundColor="#ecebeb"
                 {...props}
             >
@@ -30,7 +30,7 @@ const TubeLoader = (props) => {
                 height={254}
                 viewBox="0 0 280 254"
                 style={{ width: '100%', height: 'auto' }}
-                backgroundColor="#f3f3f3"
+                backgroundColor="#e6e6e6"
                 foregroundColor="#ecebeb"
                 {...props}
             >
