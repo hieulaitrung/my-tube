@@ -22,7 +22,7 @@ const TubesGrid = (props) => {
     const xs = matchesXs ? 12 : (matchesMd ? 6 : 3);
 
     return (
-        <Grid container className={classes.root} spacing={2}>
+        <Grid container className={classes.root}>
             {!isLoaded ?
                 Array.from(Array(12).keys()).map(i =>
                     (
