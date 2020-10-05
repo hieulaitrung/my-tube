@@ -3,7 +3,7 @@ import Tube from './Tube'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { useMediaQuery } from '@material-ui/core';
-import TubeLoader from '../placeholder/TubeLoader';
+import TubeLoader from './TubeLoader';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const TubeList = (props) => {
+const TubesGrid = (props) => {
     const tubes = props.items;
     const isLoaded = props.isLoaded;
     const classes = useStyles();
@@ -39,4 +39,4 @@ const TubeList = (props) => {
     )
 }
 
-export default TubeList
+export default TubesGrid

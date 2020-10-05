@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TubeList from '../../components/home/TubeList';
+import TubesGrid from '../../components/home/TubesGrid';
 import api from '../../apis'
 
 const Home = (props) => {
@@ -27,7 +27,7 @@ const Home = (props) => {
       }, [])
 
     return (
-        <TubeList isLoaded={isLoaded} items={items} />
+        <TubesGrid isLoaded={isLoaded} items={items} />
     )
 }
 

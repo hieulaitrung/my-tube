@@ -13,8 +13,7 @@ const useStyles = makeStyles((theme) => ({
         '&:hover': {
             'text-decoration': 'none',
         },
-        width: '100%',
-        'margin-bottom': theme.spacing(1),
+        width: '100%'
     },
     root: {
         display: 'flex',
@@ -51,12 +50,8 @@ const NextTube = (props) => {
                         <Typography gutterBottom variant="subtitle1" component="h2">
                             {tube.title}
                         </Typography>
-
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            Author
-                        </Typography>
                         
-                        <Typography variant="body2" color="textSecondary" component="p">60K views - {dateDisplay}</Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">{dateDisplay}</Typography>
 
                 </CardContent>
 

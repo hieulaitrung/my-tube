@@ -6,7 +6,7 @@ import InputBase from '@material-ui/core/InputBase';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { IconButton } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
-import IconLoaderButton from './placeholder/IconLoaderButton';
+import IconLoaderButton from './IconLoaderButton';
 
 const useStyles = makeStyles((theme) => ({
   search: {

@@ -6,8 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import SearchTube from '../../components/search/SearchTube'
 import { Grid, Box } from '@material-ui/core';
-import SearchTubeLoader from '../../components/placeholder/SearchTubeLoader';
-import TextLoader from '../../components/placeholder/TextLoader';
+import SearchTubeLoader from '../../components/search/SearchTubeLoader';
+import TextLoader from '../../components/search/TextLoader';
 
 const useStyles = makeStyles((theme) => ({
     container: {
