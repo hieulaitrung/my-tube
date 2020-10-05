@@ -60,7 +60,7 @@ const DashboardLayout = ({ children, ...rest }) => {
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 {children}
-                <Box pt={4}>
+                <Box p={4}>
                     <Copyright />
                 </Box>
             </main>

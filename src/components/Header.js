@@ -104,4 +104,4 @@ const Header = (props) => {
   )
 }
 
-export default memo(Header)
+export default Header
