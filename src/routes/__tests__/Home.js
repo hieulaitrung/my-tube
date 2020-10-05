@@ -3,7 +3,7 @@ import { act } from "react-dom/test-utils";
 import { BrowserRouter as Router } from 'react-router-dom';
 import { mount } from 'enzyme';
 import Home from '../home'
-import TubeList from '../../components/home/TubeList'
+import TubesGrid from '../../components/home/TubesGrid'
 import api from '../../apis'
 
 
@@ -34,8 +34,8 @@ describe('<Home/>', () => {
             </Router>);
         });
         wrapper.update();
-        expect(wrapper.find(TubeList).length).toBe(1);
-        const items = wrapper.find(TubeList).at(0).props().items;
+        expect(wrapper.find(TubesGrid).length).toBe(1);
+        const items = wrapper.find(TubesGrid).at(0).props().items;
         expect(items[0].id).toBe(item.id);
         expect(items[0].title).toBe(item.title);
         api.getTubes.mockRestore();

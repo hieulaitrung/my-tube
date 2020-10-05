@@ -41,7 +41,6 @@ describe('<Tube />', () => {
     });
     
     it('should renders a <CardHeader/> component', () => {
-        const dateDisplay = new Date(tube.date).toDateString();
         const wrapper = mount(
             <Router>
                 <Tube item={tube} />
@@ -52,7 +51,6 @@ describe('<Tube />', () => {
 
         const cardHeader= cardHeaders.get(0);
         expect(cardHeader.props.title).toEqual(tube.title);
-        expect(cardHeader.props.subheader).toEqual(dateDisplay);
 
         expect(cardHeaders.find(Avatar).length).toEqual(1);
     });
