@@ -17,8 +17,9 @@ const TubesGrid = (props) => {
     const isLoaded = props.isLoaded;
     const classes = useStyles();
     const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.down('xs'), { noSsr: true });
-    const xs = matches ? 12 : 3;
+    const matchesMd = useMediaQuery(theme.breakpoints.down('md'), { noSsr: true });
+    const matchesXs = useMediaQuery(theme.breakpoints.down('xs'), { noSsr: true });
+    const xs = matchesXs ? 12 : (matchesMd ? 6 : 3);
 
     return (
         <Grid container className={classes.root} spacing={2}>

@@ -1,5 +1,5 @@
-import React from 'react'
-import { Drawer, makeStyles, IconButton, Divider, List } from '@material-ui/core'
+import React, { memo } from 'react'
+import { Drawer, makeStyles, IconButton, List } from '@material-ui/core'
 import clsx from 'clsx';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NavItems from './NavItems';
@@ -65,4 +65,4 @@ const VisibleNavbar = () => {
     )
 }
 
-export default VisibleNavbar
+export default memo(VisibleNavbar)

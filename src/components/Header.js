@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
-import React, { useContext, useState, useCallback} from 'react';
+import React, { useContext, useState, useCallback, memo} from 'react';
 import { UserContext } from '../providers/UserProvider'
 import Searchbar from './Searchbar'
 import Userbar from './Userbar'
@@ -104,4 +104,4 @@ const Header = (props) => {
   )
 }
 
-export default Header
+export default memo(Header)

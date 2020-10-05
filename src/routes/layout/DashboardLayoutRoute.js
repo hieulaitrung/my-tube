@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import {
     Route
 } from 'react-router-dom'
@@ -41,9 +41,11 @@ const DashboardLayout = ({ children, ...rest }) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
+    const handleDrawerOpen = useCallback(
+        () => {
+            setOpen(true);
+        },[],
+    );
 
     const handleDrawerClose = () => {
         setOpen(false);
@@ -51,8 +53,7 @@ const DashboardLayout = ({ children, ...rest }) => {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <Header open={open}
-                handleOpen={handleDrawerOpen}
+            <Header handleOpen={handleDrawerOpen}
             />
             <InvisibleDrawer open={open} handleClose={handleDrawerClose} />
             <VisibleDrawer />

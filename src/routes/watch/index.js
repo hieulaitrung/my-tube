@@ -25,7 +25,7 @@ const useQuery = () => {
 
 const Watch = () => {
     const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.down('xs'), { noSsr: true });
+    const matches = useMediaQuery(theme.breakpoints.down('md'), { noSsr: true });
     const classes = useStyles();
     const video = useQuery().get("v");
     const [tube, setTube] = useState(null);
@@ -81,7 +81,7 @@ const Watch = () => {
 
                 <Grid container direction="column" item xs={nextxs}>
                     <Grid item>
-                        <Typography variant="subtitle1">
+                        <Typography variant="h6">
                             Up next
                 </Typography>
                     </Grid>
