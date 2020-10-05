@@ -21,9 +21,8 @@ const useStyles = makeStyles((theme) => ({
         background: 'transparent'
     },
     media: {
-        width: 150,
-        minWidth: 150,
-        height: 130
+        minWidth: 180,
+        height: 100
     },
     details: {
         display: 'flex',
@@ -47,7 +46,7 @@ const NextTube = (props) => {
 
                 <CardContent className={classes.details}>
                     
-                        <Typography gutterBottom variant="subtitle1" component="h2">
+                        <Typography gutterBottom variant="subtitle2" component="h2">
                             {tube.title}
                         </Typography>
                         

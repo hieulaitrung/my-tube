@@ -4,8 +4,9 @@ import IconLoader from './IconLoader'
 
 const useStyles = makeStyles((theme) => ({
     link: {
+        padding: theme.spacing(1.25),
         '&:hover': {
-            background: 'none'
+            background: 'none',
         }
     }
 }));
