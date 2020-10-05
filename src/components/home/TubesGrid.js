@@ -20,9 +20,10 @@ const TubesGrid = (props) => {
     const matchesMd = useMediaQuery(theme.breakpoints.down('md'), { noSsr: true });
     const matchesXs = useMediaQuery(theme.breakpoints.down('xs'), { noSsr: true });
     const xs = matchesXs ? 12 : (matchesMd ? 6 : 3);
+    const spacing = matchesXs ? 0 : 1;
 
     return (
-        <Grid container className={classes.root}>
+        <Grid container className={classes.root} spacing={spacing}>
             {!isLoaded ?
                 Array.from(Array(12).keys()).map(i =>
                     (
