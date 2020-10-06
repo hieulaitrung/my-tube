@@ -12,6 +12,7 @@ import Signup from './routes/signup';
 import Watch from './routes/watch';
 import PasswordReset from './routes/password-reset';
 import DashboardLayoutRoute from './routes/layout/DashboardLayoutRoute'
+import WatchLayoutRoute from './routes/layout/WatchLayoutRoute'
 import LoginLayoutRoute from './routes/layout/LoginLayoutRoute'
 import UserProvider from './providers/UserProvider'
 
@@ -35,7 +36,7 @@ function App() {
             <LoginLayoutRoute path="/password-reset" component={PasswordReset} />
             <DashboardLayoutRoute path="/search" component={Search} />
             <DashboardLayoutRoute path="/private" component={Private} />
-            <DashboardLayoutRoute path="/watch" component={Watch} />
+            <WatchLayoutRoute path="/watch" component={Watch} />
             <DashboardLayoutRoute path="/" component={Home} />
           </Switch>
         </UserProvider>

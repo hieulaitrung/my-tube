@@ -42,6 +42,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null);
   let history = useHistory();
 
@@ -56,8 +57,11 @@ const Login = () => {
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
+    
     if (email && password) {
+      setLoading(true);
       const error = await signIn(email, password);
+      setLoading(false);
       if (error) {
         setError(error);
       } else {
@@ -131,6 +135,7 @@ const Login = () => {
         />
         <Button
           type="submit"
+          disabled={loading}
           fullWidth
           variant="contained"
           color="primary"

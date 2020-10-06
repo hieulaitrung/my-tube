@@ -12,7 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import { createUserWithEmailAndPassword } from '../../firebase'
-import { transformFromAstAsync } from '@babel/core';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -50,6 +49,8 @@ export default function Signup() {
     const [password, setpassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [msg, setMsg] = useState(null);
+    const [tc, setTc] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     function validateEmail(email) {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -68,6 +69,8 @@ export default function Signup() {
             setpassword(value);
         } else if (name === 'confirmPassword') {
             setConfirmPassword(value);
+        } else if (name === 'tc') {
+            setTc(event.currentTarget.checked);
         }
     }
 
@@ -77,6 +80,7 @@ export default function Signup() {
         setemail('');
         setpassword('');
         setConfirmPassword('');
+        setTc(false);
     }
 
 
@@ -86,16 +90,20 @@ export default function Signup() {
             if (password !== confirmPassword) {
                 setMsg({ type: 'warning', code: 'mismatch', message: 'Password and confirm password does not match.' });
             } else if (!validateEmail(email)) {
-                setMsg({ type: 'warning', code: 'invalidEmail', message: 'Email format is invalid' });
+                setMsg({ type: 'warning', code: 'invalidEmail', message: 'Email format is invalid.' });
+            } else if (!tc) {
+                setMsg({ type: 'warning', code: 'invalidEmail', message: 'You must accept Term and Conditions.' });
             } else {
+                setLoading(true);
                 const error = await createUserWithEmailAndPassword(email, password);
+                setLoading(false);
                 if (error) {
                     setMsg({ type: 'warning', ...error })
                 } else {
                     clear();
                     setMsg({ type: 'success', message: `Verification email has been sent to ${email}. Please check your inbox.` })
                 }
-                
+
             }
         } else {
             setMsg({ type: 'warning', code: 'blank', message: 'Please fill all details bellow.' });
@@ -193,13 +201,14 @@ export default function Signup() {
                     </Grid>
                     <Grid item xs={12}>
                         <FormControlLabel
-                            control={<Checkbox value="allowExtraEmails" color="primary" />}
+                            control={<Checkbox id="tc" name="tc" checked={tc} onChange={handleOnchange} color="primary" />}
                             label="I agree with all Terms and Conditions."
                         />
                     </Grid>
                 </Grid>
                 <Button
                     type="submit"
+                    disabled={loading}
                     fullWidth
                     variant="contained"
                     color="primary"

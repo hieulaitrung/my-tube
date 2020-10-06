@@ -42,6 +42,7 @@ const PasswordReset = () => {
     const classes = useStyles();
     const [email, setEmail] = useState('');
     const [msg, setMsg] = useState(null);
+    const [loading, setLoading] = useState(false)
 
     const handleOnchange = (event) => {
         const { name, value } = event.currentTarget;
@@ -63,7 +64,9 @@ const PasswordReset = () => {
     const handleOnSubmit = async (event) => {
         event.preventDefault();
         if (email) {
+            setLoading(true);
             const error = await sendResetEmail(email);
+            setLoading(false);
             if (error) {
                 setMsg({
                     type: 'warning',
@@ -112,6 +115,7 @@ const PasswordReset = () => {
                 </Grid>
                 <Button
                     type="submit"
+                    disabled={loading}
                     fullWidth
                     variant="contained"
                     color="primary"
