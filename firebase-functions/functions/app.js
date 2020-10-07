@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const ytdl = require('ytdl-core');
 const admin = require('firebase-admin');
 const algoliasearch = require('algoliasearch');
-const { checkIfAuthenticated }  = require('./auth-middleware');
+const { checkIfAuthenticated } = require('./auth-middleware');
 const utils = require('./utils');
 var Bugsnag = require('@bugsnag/js')
 var BugsnagPluginExpress = require('@bugsnag/plugin-express')
@@ -63,6 +63,39 @@ app.get('/apis/tubes', async (req, res) => {
     res.send(result);
 });
 
+app.get('/apis/tubes/me', checkIfAuthenticated, async (req, res) => {
+    const searchTerm = req.query.term;
+    const filterBy = req.query.filterBy;
+    const filterTerm = req.query.filterTerm;
+
+    const uid = req.currentUser.uid;
+    const result = { authors: [], articles: [] };
+    const filter = (typeof filterBy == "undefined") ? 
+        {filters: `authorId:${uid}`} : 
+        {filters: `${filterBy}:${filterTerm} AND authorId:${uid}`
+    };
+    const searchResponse = await index.search(searchTerm, filter);
+    result.articles = searchResponse.hits
+        .map(h => {
+            return {
+                id: h.objectID,
+                authorId: h.authorId,
+                body: h.body,
+                title: h.title,
+                date: h.date,
+                tag: h.tag,
+                thumbnails: h.thumbnails
+            }
+        });
+    
+    const usersSnapshot = await db.collection('users').get();
+    usersSnapshot.forEach((doc) => {
+        result.authors.push({ id: doc.id, ...doc.data() });
+    });
+
+    res.send(result);
+});
+
 app.get('/apis/tubes/:tubeId/next', async (req, res) => {
     const tubeId = req.params.tubeId;
     const tube = await db.collection('tubes').doc(tubeId).get();
@@ -96,6 +129,7 @@ app.post('/apis/tubes', checkIfAuthenticated, async (req, res,) => {
     const tube = req.body;
     tube.authorId = req.currentUser.uid;
     tube.date = admin.firestore.Timestamp.now();
+    tube.createdAt = admin.firestore.Timestamp.now().toMillis();
     const obj = await db.collection('tubes').add(tube);
     tube.id = obj.id;
     res.send(tube);
@@ -136,18 +170,18 @@ app.get('/videos/info', async (req, res) => {
 });
 
 app.get('/videos/file', async (req, res) => {
-    
+
     const link = req.query.link;
     //TODO: support audio only?
     res.header('Content-Disposition', 'attachment; filename="video.mp4"');
-    ytdl(link, { filter: format => format.container === 'mp4',quality: 'highest' })
+    ytdl(link, { filter: format => format.container === 'mp4', quality: 'highest' })
         .pipe(res);
 });
 
 app.post('/videos/file', checkIfAuthenticated, async (req, res) => {
-    
+
     const link = req.query.link;
-   
+
     const uid = req.currentUser.uid;
     const name = `${utils.autoId()}.mp4`;
     const file = bucket.file(`${uid}/videos/${name}`);

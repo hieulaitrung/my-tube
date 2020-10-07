@@ -13,6 +13,22 @@ const getTubes = (term, filterBy, filterTerm) => {
         .then(res => res.json());
 }
 
+const getMyTubes = (token, term, filterBy, filterTerm) => {
+    let endpoint = `${url}/apis/tubes/me?`;
+    if (term) {
+        endpoint += `&term=${term}`;
+    }
+    if (filterBy) {
+        endpoint += `&filterBy=${filterBy}&filterTerm=${filterTerm}`;
+    }
+    return fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    }).then(res => res.json());
+}
+
 const getNextTubes = (id) => {
     let endpoint = `${url}/apis/tubes/${id}/next`;
     return fetch(endpoint)
@@ -63,6 +79,7 @@ const fetchVideo = (link, token) => {
 export default {
     getTubes,
     getNextTubes,
+    getMyTubes,
     createTube,
     getTube,
     lookupAuthor,

@@ -4,17 +4,19 @@ import React from 'react';
 import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import './App.css';
+import PasswordReset from './routes/password-reset';
+import DashboardLayoutRoute from './routes/layout/DashboardLayoutRoute'
+import WatchLayoutRoute from './routes/layout/WatchLayoutRoute'
+import LoginLayoutRoute from './routes/layout/LoginLayoutRoute'
+import UserProvider from './providers/UserProvider'
 import Home from './routes/home';
 import Private from './routes/private';
 import Search from './routes/search';
 import Login from './routes/login';
 import Signup from './routes/signup';
 import Watch from './routes/watch';
-import PasswordReset from './routes/password-reset';
-import DashboardLayoutRoute from './routes/layout/DashboardLayoutRoute'
-import WatchLayoutRoute from './routes/layout/WatchLayoutRoute'
-import LoginLayoutRoute from './routes/layout/LoginLayoutRoute'
-import UserProvider from './providers/UserProvider'
+import MyPage from './routes/mypage';
+
 
 const useStyles = makeStyles((theme) => ({
 }));
@@ -35,6 +37,7 @@ function App() {
             <LoginLayoutRoute path="/signup" component={Signup} />
             <LoginLayoutRoute path="/password-reset" component={PasswordReset} />
             <DashboardLayoutRoute path="/search" component={Search} />
+            <DashboardLayoutRoute path="/mypage" component={MyPage} />
             <DashboardLayoutRoute path="/private" component={Private} />
             <WatchLayoutRoute path="/watch" component={Watch} />
             <DashboardLayoutRoute path="/" component={Home} />

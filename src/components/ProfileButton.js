@@ -6,6 +6,7 @@ import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import { signOut } from '../firebase'
+import { useHistory } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,6 +21,7 @@ const ProfileButton = (props) => {
     const user = props.user;
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    let history = useHistory();
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -34,6 +36,9 @@ const ProfileButton = (props) => {
         await signOut();
     };
 
+    const handleGoToMyPage = () => {
+        history.push('/mypage');
+    }
 
     return (
         <React.Fragment>
@@ -64,6 +69,7 @@ const ProfileButton = (props) => {
                 onClose={handleClose}>
                 <MenuItem >{user.email}</MenuItem>
                 <Divider />
+                <MenuItem onClick={handleGoToMyPage}>My tubes</MenuItem>
                 <MenuItem onClick={handleSignOut}>Logout</MenuItem>
             </Menu>
         </React.Fragment>
