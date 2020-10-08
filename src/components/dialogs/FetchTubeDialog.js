@@ -44,7 +44,7 @@ const FetchTubeDialog = (props) => {
         const info = await api.getVideoInfo(link);
         const newTube = {
             ...tube,
-            fileSource: 'youtube',
+            fileSource: info.source,
             fileName: info.id,
             fileAuthor: info.author.name,
             title: info.title,

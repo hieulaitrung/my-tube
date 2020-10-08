@@ -1,5 +1,7 @@
 const functions = require('firebase-functions');
 const express = require('express');
+var Bugsnag = require('@bugsnag/js')
+var BugsnagPluginExpress = require('@bugsnag/plugin-express')
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const ytdl = require('ytdl-core');
@@ -7,8 +9,8 @@ const admin = require('firebase-admin');
 const algoliasearch = require('algoliasearch');
 const { checkIfAuthenticated } = require('./auth-middleware');
 const utils = require('./utils');
-var Bugsnag = require('@bugsnag/js')
-var BugsnagPluginExpress = require('@bugsnag/plugin-express')
+const spotify = require('./spotify');
+
 
 Bugsnag.start({
     apiKey: functions.config().bugsnag.api_key,
@@ -70,10 +72,11 @@ app.get('/apis/tubes/me', checkIfAuthenticated, async (req, res) => {
 
     const uid = req.currentUser.uid;
     const result = { authors: [], articles: [] };
-    const filter = (typeof filterBy == "undefined") ? 
-        {filters: `authorId:${uid}`} : 
-        {filters: `${filterBy}:${filterTerm} AND authorId:${uid}`
-    };
+    const filter = (typeof filterBy == "undefined") ?
+        { filters: `authorId:${uid}` } :
+        {
+            filters: `${filterBy}:${filterTerm} AND authorId:${uid}`
+        };
     const searchResponse = await index.search(searchTerm, filter);
     result.articles = searchResponse.hits
         .map(h => {
@@ -87,7 +90,7 @@ app.get('/apis/tubes/me', checkIfAuthenticated, async (req, res) => {
                 thumbnails: h.thumbnails
             }
         });
-    
+
     const usersSnapshot = await db.collection('users').get();
     usersSnapshot.forEach((doc) => {
         result.authors.push({ id: doc.id, ...doc.data() });
@@ -156,51 +159,98 @@ app.get('/apis/tubes/:tubeId', async (req, res) => {
 
 app.get('/videos/info', async (req, res) => {
     const link = req.query.link;
+    console.log(link);
+    const url = new URL(link);
+    if (url.hostname.indexOf("spotify") > 0) {
+        const info = await spotify.info(link)
+        res.send({
+            id: link,
+            title: info.name,
+            source: 'spotify',
+            length: String(info.duration_ms / 1000),
+            thumbnails: [{ url: info.cover_url, width: 200, height: 200 }],
+            author: {
+                name: info.artists.join(", ")
+            }
+        });
+    } else {
+        //fallback to youtube
+        const info = await ytdl.getInfo(link);
+        res.send({
+            id: link,
+            title: info.videoDetails.title,
+            source: 'youtube',
+            body: info.videoDetails.shortDescription,
+            length: info.videoDetails.lengthSeconds,
+            thumbnails: info.player_response.videoDetails.thumbnail.thumbnails,
+            author: info.videoDetails.author
+        });
+    }
 
-    const info = await ytdl.getInfo(link);
 
-    res.send({
-        id: info.videoDetails.videoId,
-        title: info.videoDetails.title,
-        body: info.videoDetails.shortDescription,
-        length: info.videoDetails.lengthSeconds,
-        thumbnails: info.player_response.videoDetails.thumbnail.thumbnails,
-        author: info.videoDetails.author
-    });
 });
 
 app.get('/videos/file', async (req, res) => {
 
     const link = req.query.link;
+    const url = new URL(link);
     //TODO: support audio only?
-    res.header('Content-Disposition', 'attachment; filename="video.mp4"');
-    ytdl(link, { filter: format => format.container === 'mp4', quality: 'highest' })
-        .pipe(res);
+    if (url.hostname.indexOf("spotify") > 0) {
+        res.header('Content-Disposition', 'attachment; filename="audio.mp3"');
+        const ytLink = await spotify.getDownloadLink(link);
+        ytdl(ytLink, { filter: 'audioonly' })
+            .pipe(res);
+    } else {
+        res.header('Content-Disposition', 'attachment; filename="video.mp4"');
+        ytdl(link, { filter: format => format.container === 'mp4', quality: 'highest' })
+            .pipe(res);
+    }
 });
 
 app.post('/videos/file', checkIfAuthenticated, async (req, res) => {
 
     const link = req.query.link;
-
+    const url = new URL(link);
     const uid = req.currentUser.uid;
-    const name = `${utils.autoId()}.mp4`;
-    const file = bucket.file(`${uid}/videos/${name}`);
-    //TODO: support audio only?
-    ytdl(link, { quality: 'highest' })
-        .pipe(file.createWriteStream({
-            metadata: {
-                contentType: 'video/mp4',
+    if (url.hostname.indexOf("spotify") > 0) {
+        const name = `${utils.autoId()}.mp3`;
+        const file = bucket.file(`${uid}/videos/${name}`);
+        const ytLink = await spotify.getDownloadLink(link);
+        ytdl(ytLink, { filter: 'audioonly' })
+            .pipe(file.createWriteStream({
                 metadata: {
-                    originName: link,
-                    source: 'youtube'
+                    contentType: 'audio/webm',
+                    metadata: {
+                        originName: link,
+                        source: 'spotify'
+                    }
                 }
-            }
-        })).on('error', (err) => {
-            res.send({ error: err.message });
-        }).on('finish', () => {
-            // The file upload is complete.
-            res.send({ fileId: name });
-        });
+            })).on('error', (err) => {
+                res.send({ error: err.message });
+            }).on('finish', () => {
+                // The file upload is complete.
+                res.send({ fileId: name });
+            });
+    } else {
+        const name = `${utils.autoId()}.mp4`;
+        const file = bucket.file(`${uid}/videos/${name}`);
+        //TODO: support audio only?
+        ytdl(link, { quality: 'highest' })
+            .pipe(file.createWriteStream({
+                metadata: {
+                    contentType: 'video/mp4',
+                    metadata: {
+                        originName: link,
+                        source: 'youtube'
+                    }
+                }
+            })).on('error', (err) => {
+                res.send({ error: err.message });
+            }).on('finish', () => {
+                // The file upload is complete.
+                res.send({ fileId: name });
+            });
+    }
 });
 
 module.exports = app

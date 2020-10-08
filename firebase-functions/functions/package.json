@@ -18,8 +18,13 @@
     "@bugsnag/plugin-express": "^7.3.5",
     "algoliasearch": "^4.4.0",
     "express": "^4.17.1",
+    "ffmpeg": "0.0.4",
     "firebase-admin": "^9.2.0",
     "firebase-functions": "^3.6.1",
+    "fuse.js": "^6.4.1",
+    "spotify-dl": "^0.4.4",
+    "spotify-web-api-node": "^4.0.0",
+    "yt-search": "^2.3.2",
     "ytdl-core": "^3.3.0"
   },
   "devDependencies": {
