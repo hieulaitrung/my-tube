@@ -1,11 +1,12 @@
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable no-await-in-loop */
 'use strict';
+const functions = require('firebase-functions');
 const SpotifyWebApi = require('spotify-web-api-node');
 
 var spotifyApi = new SpotifyWebApi({
-    clientId: 'e3342ff8157b4ad9b3bf4f982f4463b0',
-    clientSecret: '5d0bd0eef0164b6ba958a5d8bf9b06a3'
+    clientId: functions.config().spotify.client_id,
+    clientSecret: functions.config().spotify.client_secret
 });
 
 module.exports = {

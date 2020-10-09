@@ -82,7 +82,7 @@ const FetchTubeDialog = (props) => {
     return (
         <Dialog open={openDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
             <DialogTitle disableTypography >
-                <Typography variant={matches ? 'subtitle1' : 'h6'}>Fetch video from Youtube</Typography>
+                <Typography variant={matches ? 'subtitle1' : 'h6'}>Fetch video</Typography>
                 <IconButton aria-label="close" className={classes.closeButton} onClick={handleClose}>
                     <CloseIcon />
                 </IconButton>

@@ -8,7 +8,7 @@ import BackupIcon from '@material-ui/icons/Backup';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
-import YouTubeIcon from '@material-ui/icons/YouTube';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import FetchTubeDialog from './dialogs/FetchTubeDialog';
 
 const useStyles = makeStyles((theme) => ({
@@ -81,8 +81,8 @@ const UploadButton = (props) => {
                 open={open}
                 onClose={handleClose}>
                 <MenuItem onClick={handleClickOpenFetchDialog} >
-                    <YouTubeIcon color="secondary" className={classes.icon} />
-                    Fetch from YouTube
+                    <FileCopyIcon color="secondary" className={classes.icon} />
+                    Fetch from Internet
                     </MenuItem>
                 <Divider />
                 <MenuItem onClick={handleClickOpenDialog}>

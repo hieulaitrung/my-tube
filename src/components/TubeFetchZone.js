@@ -3,8 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import api from '../apis'
-import { Grid } from '@material-ui/core';
+import { Grid, Box, Typography } from '@material-ui/core';
+import YouTubeIcon from '../images/youtube.svg';
+import SpotifyIcon from '../images/spotify.svg';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,7 +41,18 @@ const useStyles = makeStyles((theme) => ({
     },
     fetchInfo: {
         display: 'flex',
-        marginTop: theme.spacing(2)
+        justifyContent: 'center',
+        padding: theme.spacing(2)
+    },
+    sIcon: {
+        width: 40,
+        marginRight: theme.spacing(1),
+        opacity: 0.8
+    },
+    icon: {
+        width: 32,
+        marginRight: theme.spacing(1),
+        opacity: 0.8
     }
 }));
 
@@ -76,8 +88,17 @@ const TubeFetchZone = (props) => {
                     {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                 </div>
 
-
             </form>
+            <Grid item xs={12} className={classes.fetchInfo}>
+                <Box p={1}>
+                    <Typography variant="body1">
+                        Support
+                    </Typography>
+                </Box>
+                <img className={classes.sIcon} src={YouTubeIcon} alt="youtube" />
+                <img className={classes.icon} src={SpotifyIcon} alt="spotify" />
+            </Grid>
+
         </div>
     )
 }

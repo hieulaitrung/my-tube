@@ -17,4 +17,18 @@ const parser = async (inputUrl) => {
     }
 }
 
-module.exports = parser;
+const removeQuery = (url) => {
+    for(let i=0; i<url.length; i++) {
+        if(i > 15) {
+            if(url[i] === '?') {
+                url = url.slice(0, i);
+            }
+        }
+    }
+    return url;
+}
+
+module.exports = {
+    parser,
+    removeQuery
+}
