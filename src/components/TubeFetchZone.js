@@ -6,6 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Grid, Box, Typography } from '@material-ui/core';
 import YouTubeIcon from '../images/youtube.svg';
 import SpotifyIcon from '../images/spotify.svg';
+import TiktokIcon from '../images/tiktok.svg';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -92,6 +93,7 @@ const TubeFetchZone = (props) => {
             <Grid item xs={12} className={classes.fetchInfo}>
                 <img className={classes.sIcon} src={YouTubeIcon} alt="youtube" />
                 <img className={classes.icon} src={SpotifyIcon} alt="spotify" />
+                <img className={classes.icon} src={TiktokIcon} alt="tiktok" />
             </Grid>
 
         </div>

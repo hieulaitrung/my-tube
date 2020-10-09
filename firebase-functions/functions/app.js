@@ -7,9 +7,11 @@ const bodyParser = require('body-parser');
 const ytdl = require('ytdl-core');
 const admin = require('firebase-admin');
 const algoliasearch = require('algoliasearch');
+const axios = require('axios');
 const { checkIfAuthenticated } = require('./auth-middleware');
 const utils = require('./utils');
 const spotify = require('./spotify');
+const tiktok = require('./tiktok');
 
 
 Bugsnag.start({
@@ -159,9 +161,22 @@ app.get('/apis/tubes/:tubeId', async (req, res) => {
 
 app.get('/videos/info', async (req, res) => {
     const link = req.query.link;
-    console.log(link);
     const url = new URL(link);
-    if (url.hostname.indexOf("spotify") > 0) {
+    if (url.hostname.indexOf("tiktok") > 0) {
+        const info = await tiktok.info(link);
+        res.send({
+            id: link,
+            title: info.musicMeta.musicName,
+            body: info.text,
+            source: 'tiktok',
+            length: String(info.videoMeta.duration),
+            thumbnails: [{ url: info.imageUrl, width: 200, height: 200 }],
+            author: {
+                name: info.authorMeta.name
+            }
+
+        });
+    } else if (url.hostname.indexOf("spotify") > 0) {
         const info = await spotify.info(link)
         res.send({
             id: link,
@@ -195,13 +210,28 @@ app.get('/videos/file', async (req, res) => {
     const link = req.query.link;
     const url = new URL(link);
     //TODO: support audio only?
-    if (url.hostname.indexOf("spotify") > 0) {
-        res.header('Content-Disposition', 'attachment; filename="audio.mp3"');
+    if (url.hostname.indexOf("tiktok") > 0) {
+        res.header('Content-Disposition', 'attachment; filename="tiktok.mp4"');
+        const dlLink = await tiktok.getDownloadLink(link);
+        // might use different options https://github.com/drawrowfly/tiktok-scraper/blob/26b0e4afba40db4135a8c2aff0652af6046835cd/src/core/Downloader.ts#L182
+        await axios({
+            method: 'get',
+            url: dlLink,
+            headers: {
+                'user-agent': 'axios',
+                referer: 'https://www.tiktok.com/',
+            },
+            responseType: 'stream'
+        }).then((response) => {
+            return response.data.pipe(res);
+        });
+    } else if (url.hostname.indexOf("spotify") > 0) {
+        res.header('Content-Disposition', 'attachment; filename="spotify.mp3"');
         const ytLink = await spotify.getDownloadLink(link);
         ytdl(ytLink, { filter: 'audioonly' })
             .pipe(res);
     } else {
-        res.header('Content-Disposition', 'attachment; filename="video.mp4"');
+        res.header('Content-Disposition', 'attachment; filename="youtube.mp4"');
         ytdl(link, { filter: format => format.container === 'mp4', quality: 'highest' })
             .pipe(res);
     }
@@ -212,7 +242,37 @@ app.post('/videos/file', checkIfAuthenticated, async (req, res) => {
     const link = req.query.link;
     const url = new URL(link);
     const uid = req.currentUser.uid;
-    if (url.hostname.indexOf("spotify") > 0) {
+    if (url.hostname.indexOf("tiktok") > 0) {
+        const name = `${utils.autoId()}.mp4`;
+        const file = bucket.file(`${uid}/videos/${name}`);
+        const dlLink = await tiktok.getDownloadLink(link);
+        // might use different options https://github.com/drawrowfly/tiktok-scraper/blob/26b0e4afba40db4135a8c2aff0652af6046835cd/src/core/Downloader.ts#L182
+        await axios({
+            method: 'get',
+            url: dlLink,
+            headers: {
+                'user-agent': 'axios',
+                referer: 'https://www.tiktok.com/',
+            },
+            responseType: 'stream'
+        }).then((response) => {
+            return response.data
+                .pipe(file.createWriteStream({
+                    metadata: {
+                        contentType: 'video/mp4',
+                        metadata: {
+                            originName: link,
+                            source: 'tiktok'
+                        }
+                    }
+                })).on('error', (err) => {
+                    res.send({ error: err.message });
+                }).on('finish', () => {
+                    // The file upload is complete.
+                    res.send({ fileId: name });
+                });
+        });
+    } else if (url.hostname.indexOf("spotify") > 0) {
         const name = `${utils.autoId()}.mp3`;
         const file = bucket.file(`${uid}/videos/${name}`);
         const ytLink = await spotify.getDownloadLink(link);
