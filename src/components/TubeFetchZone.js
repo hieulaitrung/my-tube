@@ -90,11 +90,6 @@ const TubeFetchZone = (props) => {
 
             </form>
             <Grid item xs={12} className={classes.fetchInfo}>
-                <Box p={1}>
-                    <Typography variant="body1">
-                        Support
-                    </Typography>
-                </Box>
                 <img className={classes.sIcon} src={YouTubeIcon} alt="youtube" />
                 <img className={classes.icon} src={SpotifyIcon} alt="spotify" />
             </Grid>

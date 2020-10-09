@@ -27,12 +27,14 @@ const getDownloadLink = async (link) => {
     const result = await search(songName);
     // TODO: better scoring https://github.com/spotDL/spotify-downloader/blob/master/spotdl/search/provider.py
 
-    const videos = result.videos.map(v => {
-        const duration = v.duration.seconds;
-        const songDuration = songData.duration_ms / 1000;
-        v.delta = Math.abs(duration - songDuration);
-        return v;
-    }).sort((i, j) => i.delta - j.delta);
+    const videos = result.videos;
+    // .map(v => {
+    //     const duration = v.duration.seconds;
+    //     const songDuration = songData.duration_ms / 1000;
+    //     v.delta = Math.abs(duration - songDuration);
+    //     return v;
+    // }).sort((i, j) => i.delta - j.delta);
+    
 
     const youtubeLink = buildUrl(videos[0])
     return youtubeLink;
