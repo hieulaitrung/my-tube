@@ -1,6 +1,7 @@
 const { promisify } = require('util');
 const youtubeSearch = require('yt-search');
-const utils = require('../utils');
+const utils = require('./utils');
+const gUtils = require('../utils');
 const Spotifye = require('./get-songdata');
 
 const search = promisify(youtubeSearch);
@@ -13,7 +14,7 @@ const info = async (link) => {
     const spotifye = new Spotifye();
     const urlType = utils.parser(utils.removeQuery(link));
     // TODO: switch urlType
-    return utils.retry(async () => { return await spotifye.getTrack(link) }, 5);
+    return gUtils.retry(async () => { return await spotifye.getTrack(link) }, 5);
 }
 
 const getDownloadLink = async (link) => {

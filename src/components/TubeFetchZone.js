@@ -45,11 +45,6 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         padding: theme.spacing(2)
     },
-    sIcon: {
-        width: 40,
-        marginRight: theme.spacing(1),
-        opacity: 0.8
-    },
     icon: {
         width: 32,
         marginRight: theme.spacing(1),
@@ -91,8 +86,8 @@ const TubeFetchZone = (props) => {
 
             </form>
             <Grid item xs={12} className={classes.fetchInfo}>
-                <img className={classes.sIcon} src={YouTubeIcon} alt="youtube" />
                 <img className={classes.icon} src={SpotifyIcon} alt="spotify" />
+                <img className={classes.icon} src={YouTubeIcon} alt="youtube" />
                 <img className={classes.icon} src={TiktokIcon} alt="tiktok" />
             </Grid>
 
