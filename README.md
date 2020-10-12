@@ -1,4 +1,5 @@
-![Node.js CI](https://github.com/hieulaitrung/my-tube/workflows/Node.js%20CI/badge.svg)
+![Firebase Functions](https://github.com/hieulaitrung/my-tube/workflows/Firebase%20Functions/badge.svg)
+![React](https://github.com/hieulaitrung/my-tube/workflows/React/badge.svg)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
