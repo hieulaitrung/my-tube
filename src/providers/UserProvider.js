@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from "react-router-dom";
 import { auth, generateUserDocument } from "../firebase";
 
 
@@ -9,7 +8,6 @@ const UserProvider = (props) => {
   const [user, setUser] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
   const [idToken, setIdToken] = useState(null)
-  let history = useHistory();
 
   useEffect(() => {
     auth.onAuthStateChanged(async userAuth => {

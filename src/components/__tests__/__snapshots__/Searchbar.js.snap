@@ -5,7 +5,7 @@ exports[`<Searchbar /> snapshot renders 1`] = `
   className="makeStyles-search-1"
 >
   <div
-    className="makeStyles-searchIcon-2"
+    className="makeStyles-searchIcon-3"
   >
     <svg
       aria-hidden={true}
@@ -19,12 +19,12 @@ exports[`<Searchbar /> snapshot renders 1`] = `
     </svg>
   </div>
   <div
-    className="MuiInputBase-root makeStyles-inputRoot-3"
+    className="MuiInputBase-root makeStyles-inputRoot-4"
     onClick={[Function]}
   >
     <input
       aria-label="search"
-      className="MuiInputBase-input makeStyles-inputInput-4"
+      className="MuiInputBase-input makeStyles-inputInput-5"
       onAnimationStart={[Function]}
       onBlur={[Function]}
       onChange={[Function]}

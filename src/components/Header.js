@@ -55,6 +55,7 @@ const Header = (props) => {
   const classes = useStyles();
   const handleOpen = props.handleOpen;
   const [expandSearch, setExpandSearch] = useState(false);
+  const query = props.query;
   let history = useHistory();
 
   const handleSubmitSearch = useCallback((term) => {
@@ -97,7 +98,7 @@ const Header = (props) => {
         </React.Fragment>
       }
 
-        <Searchbar userLoading={userLoading} expandSearch={expandSearch} handleExpandSearch={handleExpandSearch} handleSubmitSearch={handleSubmitSearch} />
+        <Searchbar userLoading={userLoading} query={query} expandSearch={expandSearch} handleExpandSearch={handleExpandSearch} handleSubmitSearch={handleSubmitSearch} />
         <Userbar userLoading={userLoading} expandSearch={expandSearch}  user={user} />
       </Toolbar>
     </AppBar>

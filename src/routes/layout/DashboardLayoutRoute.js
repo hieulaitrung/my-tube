@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import {
-    Route
+    Route, useLocation
 } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -37,9 +37,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  }
+
 const DashboardLayout = ({ children, ...rest }) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    const query = useQuery().get("query") || '';
 
     const handleDrawerOpen = useCallback(
         () => {
@@ -53,8 +58,7 @@ const DashboardLayout = ({ children, ...rest }) => {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <Header handleOpen={handleDrawerOpen}
-            />
+            <Header query={query} handleOpen={handleDrawerOpen}/>
             <InvisibleDrawer open={open} handleClose={handleDrawerClose} />
             <VisibleDrawer />
             <main className={classes.content}>
